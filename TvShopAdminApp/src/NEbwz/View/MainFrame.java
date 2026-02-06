@@ -6,6 +6,7 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
 
+    //attribute Für Fernseher
     private JTabbedPane tabbedPane;
 
     private JList<String> tvList;
@@ -22,8 +23,11 @@ public class MainFrame extends JFrame {
     private JTextField txtAufloesung;
 
     private JComboBox<DisplayTechnologie> cbTechnologie;
-    private JButton btnHinzufuegen, btnLoeschen, btnSpeichern;
+    private JButton btnHinzufuegen;
+    private JButton btnLoeschen;
+    private JButton  btnSpeichern;
 
+    //Attribute Für kuden
     private JList<String> kundeList;
     private DefaultListModel<String> kundeListModel;
     private JTextField txtKundeVorname;
@@ -34,14 +38,14 @@ public class MainFrame extends JFrame {
     private JTextField txtKundeEmail;
     private JTextField txtKundeTelefon;
 
-   //Buttons
+
     private JButton btnKundeHinzufuegen;
     private JButton btnKundeLoeschen;
     private JButton btnKundeSpeichern;
 
     public MainFrame() {
         setTitle("TV_Shop Admin-App");
-        setSize(950, 750);
+        setSize(950, 580);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -183,4 +187,18 @@ public class MainFrame extends JFrame {
 
         return panel;
     }
+
+    public JTextField getTxtMarke() { return txtMarke; }
+    public JTextField getTxtModell() { return txtModell; }
+    public JTextField getTxtPreis() { return txtPreis; }
+    public JTextField getTxtDiagonale() { return txtDiagonale; }
+    public JTextField getTxtFrequenz() { return txtFrequenz; }
+    public JTextField getTxtGewicht() { return txtGewicht; }
+    public JTextField getTxtRelease() { return txtRelease; }
+    public JTextField getTxtPixel() { return txtPixel; }
+    public JTextField getTxtLeistung() { return txtLeistung; }
+    public JTextField getTxtAufloesung() { return txtAufloesung; }
+    public JComboBox<DisplayTechnologie> getCbTechnologie() { return cbTechnologie; }
+    public JButton getBtnSpeichern() { return btnSpeichern; }
+    public DefaultListModel<String> getTvListModel() { return tvListModel; }
 }
