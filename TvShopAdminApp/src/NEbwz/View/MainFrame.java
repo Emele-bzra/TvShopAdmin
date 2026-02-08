@@ -1,10 +1,16 @@
 package NEbwz.View;
 
+import NEbwz.Controller.MainFrameController;
 import NEbwz.Modell.DisplayTechnologie;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class MainFrame extends JFrame {
+    private MainFrameController controller;
 
     //attribute Für Fernseher
     private JTabbedPane tabbedPane;
@@ -43,7 +49,9 @@ public class MainFrame extends JFrame {
     private JButton btnKundeLoeschen;
     private JButton btnKundeSpeichern;
 
-    public MainFrame() {
+    public MainFrame(MainFrameController controller) {
+        this.controller = controller;
+
         setTitle("TV_Shop Admin-App");
         setSize(950, 580);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,7 +61,6 @@ public class MainFrame extends JFrame {
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("TVs", createTvPanel());
         tabbedPane.addTab("Kunden", createKundePanel());
-
 
         JPanel bestellungPanel = new JPanel(new BorderLayout());
         bestellungPanel.add(new JLabel("Hier kommen die Bestellungen hin", SwingConstants.CENTER));
@@ -124,8 +131,50 @@ public class MainFrame extends JFrame {
         JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnHinzufuegen = new JButton("Hinzufügen");
         btnLoeschen = new JButton("Löschen");
+        btnLoeschen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Alle Textfelder auf leer setzen
+                getTxtMarke().setText("");
+                getTxtModell().setText("");
+                getTxtPreis().setText("");
+                getTxtDiagonale().setText("");
+                getTxtAufloesung().setText("");
+                getTxtFrequenz().setText("");
+                getTxtGewicht().setText("");
+                getTxtRelease().setText("");
+                getTxtPixel().setText("");
+                getTxtLeistung().setText("");
+
+                // ComboBox auf das erste Element zurücksetzen
+                getCbTechnologie().setSelectedIndex(0);
+
+                //controller.delete();
+            }
+        });
         btnSpeichern = new JButton("Speichern");
-        south.add(btnHinzufuegen); south.add(btnLoeschen); south.add(Box.createHorizontalStrut(20)); south.add(btnSpeichern);
+        btnSpeichern.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    controller.saveKundeToDb( // this is Noel's chore
+                            txtKundeVorname.getText(),
+                            txtKundeNachname.getText()
+                    );
+                    controller.saveTvToDb(
+                            getTxtMarke().getText(),
+                            getTxtModell().getText());
+
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(MainFrame.this, "Fehler: Bitte überprüfe die Zahlenfelder (Preis, Gewicht, Hz, Watt)!");
+                }
+
+            }
+        });
+
+        south.add(btnHinzufuegen);
+        south.add(btnLoeschen); south.add(Box.createHorizontalStrut(20));
+        south.add(btnSpeichern);
         panel.add(south, BorderLayout.SOUTH);
 
         return panel;
