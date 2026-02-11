@@ -1,7 +1,10 @@
 package NEbwz.View;
 
+import NEbwz.Controller.FernseherController;
 import NEbwz.Controller.MainFrameController;
 import NEbwz.Model.DisplayTechnologie;
+import NEbwz.Model.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +17,7 @@ public class MainFrame extends JFrame {
     private JTabbedPane tabbedPane;
 
     private JList<String> tvList;
-    private DefaultListModel<String> tvListModel;
+    private JList<String> tvListModel;
     private JTextField txtMarke;
     private JTextField txtModell;
     private JTextField txtPreis;
@@ -73,11 +76,14 @@ public class MainFrame extends JFrame {
 
         JPanel left = new JPanel(new BorderLayout());
         left.setBorder(BorderFactory.createTitledBorder("TV Liste"));
-        tvListModel = new DefaultListModel<>();
+        DefaultListModel<String> tvListModel = new DefaultListModel<>();
+
         tvListModel.addElement("Samsung G8");
         tvListModel.addElement("Sony PqP 3 Pro");
         tvListModel.addElement("LG Plasma +");
-        tvList = new JList<>(tvListModel);
+
+        JList<String> tvList = new JList<>(tvListModel);
+
         left.add(new JScrollPane(tvList), BorderLayout.CENTER);
         left.setPreferredSize(new Dimension(220, 0));
         panel.add(left, BorderLayout.WEST);
@@ -180,6 +186,8 @@ public class MainFrame extends JFrame {
 
         btnLoeschen = new JButton("Löschen");
         btnLoeschen.addActionListener(new ActionListener() {
+            String tv = tvList.getSelectedValue();
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Alle Textfelder auf leer setzen
@@ -205,7 +213,9 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    String tv = tvList.getSelectedValue();
 
+                    tv.
                     controller.saveTvToDb(
                             getTxtMarke().getText(),
                             getTxtModell().getText(),
@@ -247,7 +257,9 @@ public class MainFrame extends JFrame {
         kundeListModel.addElement("Florian Elser");
         kundeListModel.addElement("Noel Emele");
         kundeListModel.addElement("Nicholas Malinov");
+
         kundeList = new JList<>(kundeListModel);
+
         left.add(new JScrollPane(kundeList), BorderLayout.CENTER);
         left.setPreferredSize(new Dimension(220, 0));
         panel.add(left, BorderLayout.WEST);
@@ -289,7 +301,6 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // Kundendaten holen
                     controller.saveKundeToDb(
                             getTxtKundeVorname().getText(),
                             getTxtKundeNachname().getText(),

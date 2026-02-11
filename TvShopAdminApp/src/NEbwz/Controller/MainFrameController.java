@@ -20,6 +20,8 @@ public class MainFrameController {
             neuerTv.setMarke(marke);
             neuerTv.setModell(modell);
             neuerTv.setPreis(Double.parseDouble(preis));
+
+            /*
             neuerTv.setBildschirmdiagonale();
             neuerTv.setAufloesung(view.getTxtAufloesung().getText());
 
@@ -46,7 +48,7 @@ public class MainFrameController {
             // Alles leeren
             clearAllFields();
             JOptionPane.showMessageDialog(view, "Fernseher erfolgreich gespeichert!");
-
+*/
         return neuerTv;
     }
 
