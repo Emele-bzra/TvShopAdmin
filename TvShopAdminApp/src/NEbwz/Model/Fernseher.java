@@ -1,4 +1,4 @@
-package NEbwz.Modell;
+package NEbwz.Model;
 
 import java.time.LocalDate;
 

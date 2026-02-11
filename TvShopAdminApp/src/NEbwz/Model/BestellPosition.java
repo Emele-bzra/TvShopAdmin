@@ -1,4 +1,4 @@
-package NEbwz.Modell;
+package NEbwz.Model;
 
 public class BestellPosition {
     private Fernseher tv;
