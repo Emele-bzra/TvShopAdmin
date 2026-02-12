@@ -219,6 +219,7 @@ public class MainFrame extends JFrame {
                     String tv = tvList.getSelectedValue();
 
                     // tv.
+                    /*
                     controller.saveTvToDb(
                             getTxtMarke().getText(),
                             getTxtModell().getText(),
@@ -232,7 +233,7 @@ public class MainFrame extends JFrame {
                             getTxtLeistung().getText()
                     );
 
-
+                    */
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(MainFrame.this, "Fehler: Bitte überprüfe die INT werte (Preis, Gewicht, Hz, Watt)!");
                 } catch (Exception ex) {
@@ -304,6 +305,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    /*
                     controller.saveKundeToDb(
                             getTxtKundeVorname().getText(),
                             getTxtKundeNachname().getText(),
@@ -313,6 +315,7 @@ public class MainFrame extends JFrame {
                             getTxtKundeEmail().getText(),
                             getTxtKundeTelefon().getText()
                     );
+                    */
 
                     // Alle Felder leeren
                     getTxtKundeVorname().setText("");
@@ -360,7 +363,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-
+/*
                     controller.saveKundeToDb(
                             getTxtKundeVorname().getText(),
                             getTxtKundeNachname().getText(),
@@ -370,7 +373,7 @@ public class MainFrame extends JFrame {
                             getTxtKundeEmail().getText(),
                             getTxtKundeTelefon().getText()
                     );
-
+*/
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(MainFrame.this, "Fehler: Bitte überprüfe die INT werte (Preis, Gewicht, Hz, Watt)!");
                 } catch (Exception ex) {
@@ -401,13 +404,6 @@ public class MainFrame extends JFrame {
     public JButton getBtnSpeichern() { return btnSpeichern; }
     public DefaultListModel<String> getTvListModel() { return tvListModel; }
 
-    public MainFrameController getController() {
-        return controller;
-    }
-
-    public void setController(MainFrameController controller) {
-        this.controller = controller;
-    }
 
     public JTextField getTxtKundeVorname() {
         return txtKundeVorname;

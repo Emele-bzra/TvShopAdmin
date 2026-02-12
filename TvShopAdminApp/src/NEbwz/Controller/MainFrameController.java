@@ -1,14 +1,22 @@
 package NEbwz.Controller;
 
 import NEbwz.Model.*;
+import NEbwz.Persistance.BestellungPersistence;
 import NEbwz.Persistance.DbInitializer;
+import NEbwz.Persistance.FernseherPersistence;
+import NEbwz.Persistance.KundePersistence;
 
 public class MainFrameController {
 
-    private FernseherController fernseher = new FernseherController();
-    private KundenController kunden = new KundenController();
-    private BestellungController bestellungen = new BestellungController();
-    private DbInitializer initializer = new DbInitializer();
+    private FernseherPersistence fernseherPersistence = new FernseherPersistence();
+    private KundePersistence kundePersistence = new KundePersistence();
+    private BestellungPersistence bestellungPersistence = new BestellungPersistence();
+
+    private FernseherController fernseher = new FernseherController(fernseherPersistence);
+    private KundenController kunden = new KundenController(kundePersistence);
+    private BestellungController bestellungen = new BestellungController(bestellungPersistence);
+
+    private DbInitializer initializer = new DbInitializer(fernseherPersistence, kundePersistence, bestellungPersistence);
 
     public MainFrameController() {
         initializer.initialize();

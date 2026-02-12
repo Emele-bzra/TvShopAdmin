@@ -1,10 +1,12 @@
 package NEbwz.Model;
 
+import org.bson.types.ObjectId;
+
 import java.time.LocalDate;
 
 
 public class Fernseher {
-    private String id;
+    private ObjectId id;
     private String marke;
     private String modell;
     private double preis;
@@ -26,8 +28,8 @@ public class Fernseher {
         this.preis = preis;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public ObjectId getId() { return id; }
+    public void setId(ObjectId id) { this.id = id; }
     public String getMarke() { return marke; }
     public void setMarke(String marke) { this.marke = marke; }
     public String getModell() { return modell; }

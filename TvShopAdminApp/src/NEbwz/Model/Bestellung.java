@@ -1,11 +1,13 @@
 package NEbwz.Model;
 
+import org.bson.types.ObjectId;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bestellung {
-    private String id;
+    private ObjectId id;
     private String bestellnummer;
     private LocalDate bestelldatum;
     private Kunde kunde;
@@ -14,8 +16,8 @@ public class Bestellung {
 
     public Bestellung() {}
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public ObjectId getId() { return id; }
+    public void setId(ObjectId id) { this.id = id; }
     public String getBestellnummer() { return bestellnummer; }
     public void setBestellnummer(String bestellnummer) { this.bestellnummer = bestellnummer; }
     public LocalDate getBestelldatum() { return bestelldatum; }

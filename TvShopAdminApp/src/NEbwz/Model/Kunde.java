@@ -1,9 +1,11 @@
 package NEbwz.Model;
 
+import org.bson.types.ObjectId;
+
 import java.time.LocalDate;
 
 public class Kunde {
-    private String id;
+    private ObjectId id;
     private String anrede;
     private String nachname;
     private String vorname;
@@ -17,8 +19,8 @@ public class Kunde {
 
     public Kunde() {}
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public ObjectId getId() { return id; }
+    public void setId(ObjectId id) { this.id = id; }
     public String getAnrede() { return anrede; }
     public void setAnrede(String anrede) { this.anrede = anrede; }
     public String getNachname() { return nachname; }

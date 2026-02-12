@@ -1,12 +1,17 @@
 package NEbwz.Controller;
 
 import NEbwz.Model.Bestellung;
-import NEbwz.Model.Kunde;
+import NEbwz.Persistance.BestellungPersistence;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BestellungController {
+    private BestellungPersistence bestellungPersistence;
+
+    public BestellungController(BestellungPersistence bestellungPersistence) {
+        this.bestellungPersistence = bestellungPersistence;
+    }
     public List<Bestellung> readKunde() {
         return new ArrayList<>();
     }
