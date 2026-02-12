@@ -21,7 +21,7 @@ public class KundenController {
 
     }
 
-    public void updateKunde(int index, Kunde toUpdate)  {
+    public void updateKunde(Kunde toUpdate)  {
 
     }
 

@@ -1,13 +1,12 @@
 package NEbwz.View;
 
-import NEbwz.Controller.BestellungController;
-import NEbwz.Controller.FernseherController;
-import NEbwz.Controller.KundenController;
 import NEbwz.Controller.MainFrameController;
 import NEbwz.Model.DisplayTechnologie;
 import NEbwz.Model.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +19,7 @@ public class MainFrame extends JFrame {
     private JTabbedPane tabbedPane;
 
     private JList<String> tvList;
-    private DefaultListModel<String> tvListModel = new DefaultListModel<>();
+    private DefaultListModel<Fernseher> tvListModel = new DefaultListModel<>();
     private JTextField txtMarke;
     private JTextField txtModell;
     private JTextField txtPreis;
@@ -80,11 +79,31 @@ public class MainFrame extends JFrame {
         JPanel left = new JPanel(new BorderLayout());
         left.setBorder(BorderFactory.createTitledBorder("TV Liste"));
 
-        tvListModel.addElement("Samsung G8");
-        tvListModel.addElement("Sony PqP 3 Pro");
-        tvListModel.addElement("LG Plasma +");
+        for (Fernseher fernseher : mainFrameController.getFernsehController().readFernseher()) {
+            tvListModel.addElement(fernseher);
+        }
 
-        JList<String> tvList = new JList<>(tvListModel);
+        JList<Fernseher> tvList = new JList<>(tvListModel);
+        tvList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Fernseher tv = tvList.getSelectedValue();
+                if (tv != null) {
+                    // text setzen
+                    getTxtMarke().setText(tv.getMarke());
+                    getTxtModell().setText(tv.getModell());
+                    getTxtDiagonale().setText(tv.getBildschirmdiagonale());
+                    getTxtPreis().setText(String.valueOf(tv.getPreis()));
+                    getTxtFrequenz().setText(String.valueOf(tv.getBildwiederholfrequenz()));
+                    getTxtGewicht().setText(String.valueOf(tv.getGewicht()));
+                    getTxtRelease().setText(tv.getReleaseDatum().toString());
+                    getTxtPixel().setText(tv.getPixelAufloesung());
+                    getTxtAufloesung().setText(tv.getAufloesung());
+                    getTxtLeistung().setText(String.valueOf(tv.getNennleistung()));
+                    getCbTechnologie().getModel().setSelectedItem(tv.getDisplayTechnologie());
+                }
+            }
+        });
 
         left.add(new JScrollPane(tvList), BorderLayout.CENTER);
         left.setPreferredSize(new Dimension(220, 0));
@@ -141,20 +160,22 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Fernseher fernseher = new Fernseher();
+                    Fernseher tv = new Fernseher();
                     // text holen
-                    fernseher.setMarke(getTxtMarke().getText());
-                    fernseher.setModell(getTxtModell().getText());
-                    fernseher.setBildschirmdiagonale(getTxtDiagonale().getText());
-                    fernseher.setPreis(Double.parseDouble(getTxtPreis().getText()));
-                    fernseher.setBildwiederholfrequenz(Integer.parseInt(getTxtFrequenz().getText()));
-                    fernseher.setGewicht(Double.parseDouble(getTxtGewicht().getText()));
-                    fernseher.setReleaseDatum(LocalDate.parse(getTxtRelease().getText()));
-                    fernseher.setPixelAufloesung(getTxtPixel().getText());
-                    fernseher.setAufloesung(getTxtAufloesung().getText());
-                    fernseher.setNennleistung(Integer.parseInt(getTxtLeistung().getText()));
+                    tv.setMarke(getTxtMarke().getText());
+                    tv.setModell(getTxtModell().getText());
+                    tv.setBildschirmdiagonale(getTxtDiagonale().getText());
+                    tv.setPreis(Double.parseDouble(getTxtPreis().getText()));
+                    tv.setBildwiederholfrequenz(Integer.parseInt(getTxtFrequenz().getText()));
+                    tv.setGewicht(Double.parseDouble(getTxtGewicht().getText()));
+                    tv.setReleaseDatum(LocalDate.parse(getTxtRelease().getText()));
+                    tv.setPixelAufloesung(getTxtPixel().getText());
+                    tv.setAufloesung(getTxtAufloesung().getText());
+                    tv.setNennleistung(Integer.parseInt(getTxtLeistung().getText()));
+                    tv.setDisplayTechnologie(String.valueOf(getCbTechnologie().getModel().getSelectedItem()));
 
-                    mainFrameController.getFernseher().addFernseher(fernseher);
+                    mainFrameController.getFernsehController().addFernseher(tv);
+                    tvListModel.addElement(tv);
 
                     // felder leeren
                     getTxtMarke().setText("");
@@ -189,26 +210,29 @@ public class MainFrame extends JFrame {
 
         btnLoeschen = new JButton("Löschen");
         btnLoeschen.addActionListener(new ActionListener() {
-            String tv = tvList.getSelectedValue();
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Alle Textfelder auf leer setzen
-                getTxtMarke().setText("");
-                getTxtModell().setText("");
-                getTxtPreis().setText("");
-                getTxtDiagonale().setText("");
-                getTxtAufloesung().setText("");
-                getTxtFrequenz().setText("");
-                getTxtGewicht().setText("");
-                getTxtRelease().setText("");
-                getTxtPixel().setText("");
-                getTxtLeistung().setText("");
+                Fernseher tv = tvList.getSelectedValue();
 
-                // ComboBox auf das erste Element zurücksetzen
-                getCbTechnologie().setSelectedIndex(0);
+                if (tv != null) {
+                    mainFrameController.getFernsehController().deleteFernseher(tv);
+                    tvListModel.removeElement(tv);
 
-                //controller.delete();
+                    // Alle Textfelder auf leer setzen
+                    getTxtMarke().setText("");
+                    getTxtModell().setText("");
+                    getTxtPreis().setText("");
+                    getTxtDiagonale().setText("");
+                    getTxtAufloesung().setText("");
+                    getTxtFrequenz().setText("");
+                    getTxtGewicht().setText("");
+                    getTxtRelease().setText("");
+                    getTxtPixel().setText("");
+                    getTxtLeistung().setText("");
+
+                    // ComboBox auf das erste Element zurücksetzen
+                    getCbTechnologie().setSelectedIndex(0);
+                }
             }
         });
         btnSpeichern = new JButton("Speichern");
@@ -216,24 +240,26 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String tv = tvList.getSelectedValue();
+                    Fernseher tv = tvList.getSelectedValue();
 
-                    // tv.
-                    /*
-                    controller.saveTvToDb(
-                            getTxtMarke().getText(),
-                            getTxtModell().getText(),
-                            getTxtDiagonale().getText(),
-                            getTxtPreis().getText(),
-                            getTxtFrequenz().getText(),
-                            getTxtGewicht().getText(),
-                            getTxtRelease().getText(),
-                            getTxtPixel().getText(),
-                            getTxtAufloesung().getText(),
-                            getTxtLeistung().getText()
-                    );
+                    if (tv != null) {
+                        tv.setModell(getTxtModell().getText());
+                        tv.setMarke(getTxtMarke().getText());
+                        tv.setBildschirmdiagonale(getTxtDiagonale().getText());
+                        tv.setPreis(Double.parseDouble(getTxtPreis().getText()));
+                        tv.setBildwiederholfrequenz(Integer.parseInt(getTxtFrequenz().getText()));
+                        tv.setGewicht(Double.parseDouble(getTxtGewicht().getText()));
+                        tv.setReleaseDatum(LocalDate.parse(getTxtRelease().getText()));
+                        tv.setAufloesung(getTxtAufloesung().getText());
+                        tv.setPixelAufloesung(getTxtPixel().getText());
+                        tv.setNennleistung(Integer.parseInt(getTxtLeistung().getText()));
+                        tv.setDisplayTechnologie(String.valueOf(getCbTechnologie().getModel().getSelectedItem()));
+                        mainFrameController.getFernsehController().updateFernseher(tv);
 
-                    */
+                        int currentIndex = tvList.getSelectedIndex();
+                        tvList.clearSelection();
+                        tvList.setSelectedIndex(currentIndex);
+                    }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(MainFrame.this, "Fehler: Bitte überprüfe die INT werte (Preis, Gewicht, Hz, Watt)!");
                 } catch (Exception ex) {
@@ -243,9 +269,14 @@ public class MainFrame extends JFrame {
         });
 
         south.add(btnHinzufuegen);
-        south.add(btnLoeschen); south.add(Box.createHorizontalStrut(20));
+        south.add(btnLoeschen);
+        south.add(Box.createHorizontalStrut(20));
         south.add(btnSpeichern);
         panel.add(south, BorderLayout.SOUTH);
+
+        if (!tvListModel.isEmpty()) {
+            tvList.setSelectedIndex(0);
+        }
 
         return panel;
     }
@@ -402,7 +433,7 @@ public class MainFrame extends JFrame {
     public JTextField getTxtAufloesung() { return txtAufloesung; }
     public JComboBox<DisplayTechnologie> getCbTechnologie() { return cbTechnologie; }
     public JButton getBtnSpeichern() { return btnSpeichern; }
-    public DefaultListModel<String> getTvListModel() { return tvListModel; }
+    public DefaultListModel<Fernseher> getTvListModel() { return tvListModel; }
 
 
     public JTextField getTxtKundeVorname() {

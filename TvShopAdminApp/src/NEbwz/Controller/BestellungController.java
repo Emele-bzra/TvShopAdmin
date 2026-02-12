@@ -20,7 +20,7 @@ public class BestellungController {
 
     }
 
-    public void updateBestellung(int index, Bestellung toUpdate)  {
+    public void updateBestellung(Bestellung toUpdate)  {
 
     }
 

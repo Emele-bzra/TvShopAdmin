@@ -5,7 +5,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
+import com.mongodb.client.model.Filters;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -31,23 +31,31 @@ public class FernseherPersistence {
     }
 
     public List<Fernseher> getFernseher() {
-        MongoDatabase database = getDatabase();
         List<Fernseher> fernseher = new ArrayList<>();
-        database.getCollection("Fernseher", Fernseher.class).find().into(fernseher);
-        //for (Document doc : fernseher) {
-        //    System.out.println(doc.toJson());
-        //}
+        getCollection().find().into(fernseher);
         return fernseher;
     }
 
     public void addFernseher(Fernseher fernseher) {
-        MongoDatabase database = getDatabase();
-        MongoCollection<Fernseher> tvs = database.getCollection("Fernseher", Fernseher.class);
+        MongoCollection<Fernseher> tvs = getCollection();
         tvs.insertOne(fernseher);
-
     }
 
-    private MongoDatabase getDatabase() {
-        return mongoClient.getDatabase("TVShop").withCodecRegistry(pojoCodecRegistry);
+    public void updateFernseher(Fernseher fernseher) {
+        MongoCollection<Fernseher> tvs = getCollection();
+        tvs.replaceOne(
+            Filters.eq("_id", fernseher.getId()),
+            fernseher
+        );
+    }
+
+    public void deleteFernseher(Fernseher fernseher) {
+        MongoCollection<Fernseher> tvs = getCollection();
+        tvs.deleteOne(Filters.eq("_id", fernseher.getId()));
+    }
+
+    private MongoCollection<Fernseher> getCollection() {
+        MongoDatabase database = mongoClient.getDatabase("TVShop").withCodecRegistry(pojoCodecRegistry);
+        return database.getCollection("Fernseher", Fernseher.class);
     }
 }

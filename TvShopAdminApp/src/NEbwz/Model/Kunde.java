@@ -19,6 +19,11 @@ public class Kunde {
 
     public Kunde() {}
 
+    @Override
+    public String toString() {
+        return vorname + " " + nachname;
+    }
+
     public ObjectId getId() { return id; }
     public void setId(ObjectId id) { this.id = id; }
     public String getAnrede() { return anrede; }

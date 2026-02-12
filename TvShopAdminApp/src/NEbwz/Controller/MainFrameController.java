@@ -1,6 +1,5 @@
 package NEbwz.Controller;
 
-import NEbwz.Model.*;
 import NEbwz.Persistance.BestellungPersistence;
 import NEbwz.Persistance.DbInitializer;
 import NEbwz.Persistance.FernseherPersistence;
@@ -23,9 +22,9 @@ public class MainFrameController {
     }
 
 
-    public FernseherController getFernseher() { return fernseher; }
-    public KundenController getKunden() { return kunden; }
-    public BestellungController getBestellungen() {  return bestellungen; }
+    public FernseherController getFernsehController() { return fernseher; }
+    public KundenController getKundenController() { return kunden; }
+    public BestellungController getBestellungController() {  return bestellungen; }
 
 
 /*

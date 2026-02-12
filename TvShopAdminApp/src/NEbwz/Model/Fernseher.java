@@ -28,6 +28,11 @@ public class Fernseher {
         this.preis = preis;
     }
 
+    @Override
+    public String toString() {
+        return marke + " " + modell;
+    }
+
     public ObjectId getId() { return id; }
     public void setId(ObjectId id) { this.id = id; }
     public String getMarke() { return marke; }

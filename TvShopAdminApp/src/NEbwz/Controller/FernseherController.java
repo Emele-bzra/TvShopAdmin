@@ -14,19 +14,19 @@ public class FernseherController {
     }
 
     public List<Fernseher> readFernseher() {
-        return new ArrayList<>();
+        return this.fernseherPersistence.getFernseher();
     }
 
     public void addFernseher(Fernseher toAdd)  {
-
+        this.fernseherPersistence.addFernseher(toAdd);
     }
 
-    public void updateFernseher(int index, Fernseher toUpdate)  {
-
+    public void updateFernseher(Fernseher toUpdate)  {
+        this.fernseherPersistence.updateFernseher(toUpdate);
     }
 
     public void deleteFernseher(Fernseher toDelete) {
-
+        this.fernseherPersistence.deleteFernseher(toDelete);
     }
 
 }
