@@ -5,6 +5,7 @@ public class Addresse {
     private String plz;
     private String ort;
 
+    public Addresse() { }
     public Addresse(String strasse, String plz, String ort) {
         this.strasse = strasse;
         this.plz = plz;

@@ -1,8 +1,6 @@
 package NEbwz.Persistance;
 
-import NEbwz.Model.Addresse;
-import NEbwz.Model.Fernseher;
-import NEbwz.Model.Kunde;
+import NEbwz.Model.*;
 
 import java.time.LocalDate;
 
@@ -39,11 +37,23 @@ public class DbInitializer {
     }
 
     private void seedBestellungen() {
+        Kunde firstKunde = kundePersistence.getKunden().getFirst();
+        Fernseher firstFernseher = fernseherPersistence.getFernseher().getFirst();
 
+        Bestellung newBestellung = new Bestellung();
+        newBestellung.setKunde(firstKunde);
+        newBestellung.setBestelldatum(LocalDate.of(2025, 10, 25));
+        newBestellung.setTotal(848.80);
+
+        BestellPosition p1 = new BestellPosition();
+        p1.setTv(firstFernseher);
+        p1.setStueckzahl(1);
+
+        newBestellung.getPositionen().add(p1);
+        bestellungPersistence.addBestellung(newBestellung);
     }
 
     private void seedKunden() {
-
         Addresse a1 = new Addresse("Bahnhofstrasse 12", "8001", "Zürich");
         Addresse a2 = new Addresse("Seestrasse 88", "8640", "Rapperswil");
         Addresse a3 = new Addresse("Hauptplatz 5", "9000", "St. Gallen");
