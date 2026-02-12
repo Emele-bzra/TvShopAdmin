@@ -1,19 +1,26 @@
 package NEbwz.Controller;
 
 import NEbwz.Model.*;
-import NEbwz.Model.DisplayTechnologie;
-
-import javax.swing.JOptionPane;
+import NEbwz.Persistance.DbInitializer;
 
 public class MainFrameController {
 
+    private FernseherController fernseher = new FernseherController();
+    private KundenController kunden = new KundenController();
+    private BestellungController bestellungen = new BestellungController();
+    private DbInitializer initializer = new DbInitializer();
+
     public MainFrameController() {
+        initializer.initialize();
     }
 
-    public void saveKundeToDb(String kundeVorname, String kundeNachname, String text, String txtKundePlzText, String txtKundeOrtText, String txtKundeEmailText, String txtKundeTelefonText) {
 
-    }
+    public FernseherController getFernseher() { return fernseher; }
+    public KundenController getKunden() { return kunden; }
+    public BestellungController getBestellungen() {  return bestellungen; }
 
+
+/*
     public Fernseher saveTvToDb(String marke, String modell, String preis, String text, String s, String string, String text1, String s1, String string1, String text2) {
             Fernseher neuerTv = new Fernseher();
 
@@ -21,7 +28,7 @@ public class MainFrameController {
             neuerTv.setModell(modell);
             neuerTv.setPreis(Double.parseDouble(preis));
 
-            /*
+            / *
             neuerTv.setBildschirmdiagonale();
             neuerTv.setAufloesung(view.getTxtAufloesung().getText());
 
@@ -48,9 +55,9 @@ public class MainFrameController {
             // Alles leeren
             clearAllFields();
             JOptionPane.showMessageDialog(view, "Fernseher erfolgreich gespeichert!");
-*/
+* /
         return neuerTv;
     }
 
-
+*/
 }

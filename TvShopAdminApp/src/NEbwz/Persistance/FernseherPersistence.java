@@ -30,13 +30,14 @@ public class FernseherPersistence {
         mongoClient = MongoClients.create(connectionString);
     }
 
-    public void getFernseher(String[] args) {
-        MongoDatabase database = mongoClient.getDatabase("TVShop");
-        List<Document> fernseher = database.getCollection("Fernseher").find().into(new ArrayList<>());
-        for (Document doc : fernseher) {
-            System.out.println(doc.toJson());
-        }
-
+    public List<Fernseher> getFernseher(String[] args) {
+        MongoDatabase database = getDatabase();
+        List<Fernseher> fernseher = new ArrayList<>();
+        database.getCollection("Fernseher", Fernseher.class).find().into(fernseher);
+        //for (Document doc : fernseher) {
+        //    System.out.println(doc.toJson());
+        //}
+        return fernseher;
     }
 
     public void addFernseher(Fernseher fernseher) {
@@ -47,7 +48,6 @@ public class FernseherPersistence {
     }
 
     private MongoDatabase getDatabase() {
-        MongoDatabase database = mongoClient.getDatabase("TVShop").withCodecRegistry(pojoCodecRegistry);
-        return database;
+        return mongoClient.getDatabase("TVShop").withCodecRegistry(pojoCodecRegistry);
     }
 }

@@ -1,6 +1,8 @@
 package NEbwz.View;
 
+import NEbwz.Controller.BestellungController;
 import NEbwz.Controller.FernseherController;
+import NEbwz.Controller.KundenController;
 import NEbwz.Controller.MainFrameController;
 import NEbwz.Model.DisplayTechnologie;
 import NEbwz.Model.*;
@@ -9,15 +11,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 public class MainFrame extends JFrame {
-    private MainFrameController controller;
+    private MainFrameController mainFrameController;
 
     //attribute Für Fernseher
     private JTabbedPane tabbedPane;
 
     private JList<String> tvList;
-    private JList<String> tvListModel;
+    private DefaultListModel<String> tvListModel = new DefaultListModel<>();
     private JTextField txtMarke;
     private JTextField txtModell;
     private JTextField txtPreis;
@@ -50,8 +53,8 @@ public class MainFrame extends JFrame {
     private JButton btnKundeLoeschen;
     private JButton btnKundeSpeichern;
 
-    public MainFrame(MainFrameController controller) {
-        this.controller = controller;
+    public MainFrame(MainFrameController mainFrameController) {
+        this.mainFrameController = mainFrameController;
 
         setTitle("TV_Shop Admin-App");
         setSize(950, 580);
@@ -76,7 +79,6 @@ public class MainFrame extends JFrame {
 
         JPanel left = new JPanel(new BorderLayout());
         left.setBorder(BorderFactory.createTitledBorder("TV Liste"));
-        DefaultListModel<String> tvListModel = new DefaultListModel<>();
 
         tvListModel.addElement("Samsung G8");
         tvListModel.addElement("Sony PqP 3 Pro");
@@ -139,19 +141,20 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    Fernseher fernseher = new Fernseher();
                     // text holen
-                    controller.saveTvToDb(
-                            getTxtMarke().getText(),
-                            getTxtModell().getText(),
-                            getTxtDiagonale().getText(),
-                            getTxtPreis().getText(),
-                            getTxtFrequenz().getText(),
-                            getTxtGewicht().getText(),
-                            getTxtRelease().getText(),
-                            getTxtPixel().getText(),
-                            getTxtAufloesung().getText(),
-                            getTxtLeistung().getText()
-                    );
+                    fernseher.setMarke(getTxtMarke().getText());
+                    fernseher.setModell(getTxtModell().getText());
+                    fernseher.setBildschirmdiagonale(getTxtDiagonale().getText());
+                    fernseher.setPreis(Double.parseDouble(getTxtPreis().getText()));
+                    fernseher.setBildwiederholfrequenz(Integer.parseInt(getTxtFrequenz().getText()));
+                    fernseher.setGewicht(Double.parseDouble(getTxtGewicht().getText()));
+                    fernseher.setReleaseDatum(LocalDate.parse(getTxtRelease().getText()));
+                    fernseher.setPixelAufloesung(getTxtPixel().getText());
+                    fernseher.setAufloesung(getTxtAufloesung().getText());
+                    fernseher.setNennleistung(Integer.parseInt(getTxtLeistung().getText()));
+
+                    mainFrameController.getFernseher().addFernseher(fernseher);
 
                     // felder leeren
                     getTxtMarke().setText("");
@@ -215,7 +218,7 @@ public class MainFrame extends JFrame {
                 try {
                     String tv = tvList.getSelectedValue();
 
-                    tv.
+                    // tv.
                     controller.saveTvToDb(
                             getTxtMarke().getText(),
                             getTxtModell().getText(),

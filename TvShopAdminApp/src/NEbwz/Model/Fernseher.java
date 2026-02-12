@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 
 public class Fernseher {
+    private String id;
     private String marke;
     private String modell;
     private double preis;
@@ -25,6 +26,8 @@ public class Fernseher {
         this.preis = preis;
     }
 
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public String getMarke() { return marke; }
     public void setMarke(String marke) { this.marke = marke; }
     public String getModell() { return modell; }
