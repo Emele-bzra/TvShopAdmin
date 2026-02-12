@@ -1,6 +1,8 @@
 package NEbwz.Persistance;
 
+import NEbwz.Model.Addresse;
 import NEbwz.Model.Fernseher;
+import NEbwz.Model.Kunde;
 
 import java.time.LocalDate;
 
@@ -42,7 +44,148 @@ public class DbInitializer {
 
     private void seedKunden() {
 
+        Addresse a1 = new Addresse("Bahnhofstrasse 12", "8001", "Zürich");
+        Addresse a2 = new Addresse("Seestrasse 88", "8640", "Rapperswil");
+        Addresse a3 = new Addresse("Hauptplatz 5", "9000", "St. Gallen");
+        Addresse a4 = new Addresse("Dorfweg 3", "6300", "Zug");
+        Addresse a5 = new Addresse("Industriestrasse 44", "8400", "Winterthur");
+        Addresse a6 = new Addresse("Poststrasse 10", "7000", "Chur");
+        Addresse a7 = new Addresse("Alpenblick 7", "3800", "Interlaken");
+        Addresse a8 = new Addresse("Marktgasse 2", "3011", "Bern");
+        Addresse a9 = new Addresse("Rheinweg 21", "4051", "Basel");
+        Addresse a10 = new Addresse("Lindenstrasse 9", "6003", "Luzern");
+
+        Kunde p1 = new Kunde();
+        p1.setAnrede("Herr");
+        p1.setNachname("Müller");
+        p1.setVorname("Thomas");
+        p1.setAdresse(a1);
+        p1.setTelefonPrivat("044 123 45 67");
+        p1.setTelefonMobile("079 111 22 33");
+        p1.setEmail("thomas.mueller@example.com");
+        p1.setGeburtsdatum(LocalDate.of(1985, 3, 12));
+        p1.setUsername("tmueller");
+        p1.setPasswort("Passwort123!");
+        kundePersistence.addKunden(p1);
+
+        Kunde p2 = new Kunde();
+        p2.setAnrede("Frau");
+        p2.setNachname("Schneider");
+        p2.setVorname("Laura");
+        p2.setAdresse(a2);
+        p2.setTelefonPrivat("055 210 33 44");
+        p2.setTelefonMobile("078 555 66 77");
+        p2.setEmail("laura.schneider@example.com");
+        p2.setGeburtsdatum(LocalDate.of(1992, 7, 5));
+        p2.setUsername("lschneider");
+        p2.setPasswort("Sommer2024!");
+        kundePersistence.addKunden(p2);
+
+        Kunde p3 = new Kunde();
+        p3.setAnrede("Herr");
+        p3.setNachname("Keller");
+        p3.setVorname("Marco");
+        p3.setAdresse(a3);
+        p3.setTelefonPrivat("071 222 11 55");
+        p3.setTelefonMobile("079 888 99 00");
+        p3.setEmail("marco.keller@example.com");
+        p3.setGeburtsdatum(LocalDate.of(1978, 11, 22));
+        p3.setUsername("mkeller");
+        p3.setPasswort("Winter!2024");
+        kundePersistence.addKunden(p3);
+
+        Kunde p4 = new Kunde();
+        p4.setAnrede("Frau");
+        p4.setNachname("Huber");
+        p4.setVorname("Nina");
+        p4.setAdresse(a4);
+        p4.setTelefonPrivat("041 555 44 33");
+        p4.setTelefonMobile("076 123 45 67");
+        p4.setEmail("nina.huber@example.com");
+        p4.setGeburtsdatum(LocalDate.of(1999, 1, 14));
+        p4.setUsername("nhuber");
+        p4.setPasswort("ZugLife2024!");
+        kundePersistence.addKunden(p4);
+
+        Kunde p5 = new Kunde();
+        p5.setAnrede("Herr");
+        p5.setNachname("Fischer");
+        p5.setVorname("Daniel");
+        p5.setAdresse(a5);
+        p5.setTelefonPrivat("052 333 22 11");
+        p5.setTelefonMobile("079 444 55 66");
+        p5.setEmail("daniel.fischer@example.com");
+        p5.setGeburtsdatum(LocalDate.of(1980, 6, 30));
+        p5.setUsername("dfischer");
+        p5.setPasswort("Fisch2024!");
+        kundePersistence.addKunden(p5);
+
+        Kunde p6 = new Kunde();
+        p6.setAnrede("Frau");
+        p6.setNachname("Baumann");
+        p6.setVorname("Sabrina");
+        p6.setAdresse(a6);
+        p6.setTelefonPrivat("081 222 33 44");
+        p6.setTelefonMobile("078 222 33 44");
+        p6.setEmail("sabrina.baumann@example.com");
+        p6.setGeburtsdatum(LocalDate.of(1995, 9, 3));
+        p6.setUsername("sbaumann");
+        p6.setPasswort("Chur2024!");
+        kundePersistence.addKunden(p6);
+
+        Kunde p7 = new Kunde();
+        p7.setAnrede("Herr");
+        p7.setNachname("Graf");
+        p7.setVorname("Lukas");
+        p7.setAdresse(a7);
+        p7.setTelefonPrivat("033 555 66 77");
+        p7.setTelefonMobile("079 999 88 77");
+        p7.setEmail("lukas.graf@example.com");
+        p7.setGeburtsdatum(LocalDate.of(1988, 12, 9));
+        p7.setUsername("lgraf");
+        p7.setPasswort("Interlaken2024!");
+        kundePersistence.addKunden(p7);
+
+        Kunde p8 = new Kunde();
+        p8.setAnrede("Frau");
+        p8.setNachname("Meier");
+        p8.setVorname("Julia");
+        p8.setAdresse(a8);
+        p8.setTelefonPrivat("031 222 44 55");
+        p8.setTelefonMobile("076 777 88 99");
+        p8.setEmail("julia.meier@example.com");
+        p8.setGeburtsdatum(LocalDate.of(1990, 4, 18));
+        p8.setUsername("jmeier");
+        p8.setPasswort("Bern2024!");
+        kundePersistence.addKunden(p8);
+
+        Kunde p9 = new Kunde();
+        p9.setAnrede("Herr");
+        p9.setNachname("Weber");
+        p9.setVorname("Patrick");
+        p9.setAdresse(a9);
+        p9.setTelefonPrivat("061 333 22 44");
+        p9.setTelefonMobile("079 333 22 44");
+        p9.setEmail("patrick.weber@example.com");
+        p9.setGeburtsdatum(LocalDate.of(1983, 2, 25));
+        p9.setUsername("pweber");
+        p9.setPasswort("Basel2024!");
+        kundePersistence.addKunden(p9);
+
+        Kunde p10 = new Kunde();
+        p10.setAnrede("Frau");
+        p10.setNachname("Kunz");
+        p10.setVorname("Mara");
+        p10.setAdresse(a10);
+        p10.setTelefonPrivat("041 777 66 55");
+        p10.setTelefonMobile("078 111 00 99");
+        p10.setEmail("mara.kunz@example.com");
+        p10.setGeburtsdatum(LocalDate.of(2001, 8, 7));
+        p10.setUsername("mkunz");
+        p10.setPasswort("Luzern2024!");
+        kundePersistence.addKunden(p10);
     }
+      
 
     private void seedTvs() {
         Fernseher tv1 = new Fernseher();
