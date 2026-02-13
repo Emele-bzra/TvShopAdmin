@@ -323,10 +323,13 @@ public class MainFrame extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 Kunde kunde = kundeList.getSelectedValue();
                 if (kunde != null) {
+                    Addresse addresse = new Addresse();
                     // text setzen
                     getTxtKundeNachname().setText(kunde.getNachname());
                     getTxtKundeVorname().setText(kunde.getVorname());
-                    //adresse muss noch da rein
+                    getTxtKundeOrt().setText(addresse.getOrt());
+                    getTxtKundePlz().setText(addresse.getPlz());  //--------------------------------------------------------------Fehler
+                    getTxtKundeStrasse().setText(addresse.getStrasse());
                     getTxtKundeTelefon().setText(kunde.getTelefonPrivat());
                     getTxtKundeTelefonMobile().setText(String.valueOf(kunde.getTelefonMobile()));
                     getTxtKundeEmail().setText(String.valueOf(kunde.getEmail()));
@@ -390,17 +393,25 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    /*
-                    controller.saveKundeToDb(
-                            getTxtKundeVorname().getText(),
-                            getTxtKundeNachname().getText(),
-                            getTxtKundeStrasse().getText(),
-                            getTxtKundePlz().getText(),
-                            getTxtKundeOrt().getText(),
-                            getTxtKundeEmail().getText(),
-                            getTxtKundeTelefon().getText()
-                    );
-                    */
+
+                    Addresse adresse = new Addresse();
+                    Kunde kunde = new Kunde();
+                    // text holen
+                    kunde.setNachname(getTxtKundeNachname().getText());
+                    kunde.setVorname(getTxtKundeVorname().getText());
+                    adresse.setOrt(getTxtKundeOrt().getText());
+                    adresse.setPlz(getTxtKundePlz().getText());
+                    adresse.setStrasse(getTxtKundeStrasse().getText());
+                    kunde.setTelefonMobile(getTxtKundeTelefonMobile().getText());
+                    kunde.setTelefonPrivat(getTxtKundeTelefon().getText());
+                    kunde.setEmail(getTxtKundeEmail().getText());       //setBildwiederholfrequenz(Integer.parseInt(getTxtFrequenz().getText()));
+                    kunde.setUsername(getTxtKundeUsername().getText());
+                    kunde.setPasswort(getTxtKundePasswort().getText());
+                    kunde.setGeburtsdatum(LocalDate.parse(getTxtKundeGeburtsdatum().toString()) );
+
+                    mainFrameController.getKundenController().addKunde(kunde);
+                    kundeListModel.addElement(kunde);
+
 
                     // Alle Felder leeren
                     getTxtKundeVorname().setText("");
@@ -490,6 +501,7 @@ public class MainFrame extends JFrame {
     public DefaultListModel<Fernseher> getTvListModel() { return tvListModel; }
 
 
+
     public JTextField getTxtKundeUsername() {
         return txtKundeUsername;
     }
@@ -577,4 +589,6 @@ public class MainFrame extends JFrame {
     public void setTxtKundeTelefon(JTextField txtKundeTelefon) {
         this.txtKundeTelefon = txtKundeTelefon;
     }
+
+
 }

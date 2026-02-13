@@ -44,6 +44,10 @@ public class KundePersistence {
         kunden.insertOne(kunde);
 
     }
+    public void deleteKunden(Kunde kunde) {
+        MongoCollection<Kunde> kunden = getCollection();
+        kunden.deleteOne(Filters.eq("_id", kunde.getId()));
+    }
 
     private MongoDatabase getDatabase() {
         return mongoClient.getDatabase("TVShop").withCodecRegistry(pojoCodecRegistry);

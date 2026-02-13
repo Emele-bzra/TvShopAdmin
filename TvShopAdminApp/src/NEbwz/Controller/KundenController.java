@@ -18,14 +18,14 @@ public class KundenController {
     }
 
     public void addKunde(Kunde toAdd)  {
-
+        this.kundePersistence.addKunden(toAdd);
     }
 
     public void updateKunde(Kunde toUpdate)  {
-
+        this.kundePersistence.updateKunden(toUpdate);
     }
 
     public void deleteKunde(Kunde toDelete) {
-
+        this.kundePersistence.deleteKunden(toDelete);
     }
 }
