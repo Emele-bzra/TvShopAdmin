@@ -70,7 +70,7 @@ public class MainFrame extends JFrame {
         tabbedPane.addTab("Kunden", createKundePanel());
 
         JPanel bestellungPanel = new JPanel(new BorderLayout());
-        bestellungPanel.add(new JLabel("Hier kommen die Bestellungen hin", SwingConstants.CENTER));
+        bestellungPanel.add(new JLabel("Nothing.", SwingConstants.CENTER));
         tabbedPane.addTab("Bestellungen", bestellungPanel);
 
         add(tabbedPane, BorderLayout.CENTER);
@@ -240,6 +240,7 @@ public class MainFrame extends JFrame {
                 }
             }
         });
+
         btnSpeichern = new JButton("Speichern");
         btnSpeichern.addActionListener(new ActionListener() {
             @Override
@@ -331,6 +332,9 @@ public class MainFrame extends JFrame {
                     getTxtKundePlz().setText(addresse.getPlz());  //--------------------------------------------------------------Fehler
                     getTxtKundeStrasse().setText(addresse.getStrasse());
                     getTxtKundeTelefon().setText(kunde.getTelefonPrivat());
+                    kunde.getAdresse().setOrt(getTxtKundeOrt().getText());
+                    kunde.getAdresse().setPlz(getTxtKundePlz().getText());
+                    kunde.getAdresse().setStrasse(getTxtKundeStrasse().getText());
                     getTxtKundeTelefonMobile().setText(String.valueOf(kunde.getTelefonMobile()));
                     getTxtKundeEmail().setText(String.valueOf(kunde.getEmail()));
                     getTxtKundeGeburtsdatum().setText(String.valueOf(kunde.getGeburtsdatum().toString()));
@@ -394,14 +398,14 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
 
-                    Addresse adresse = new Addresse();
+
                     Kunde kunde = new Kunde();
                     // text holen
                     kunde.setNachname(getTxtKundeNachname().getText());
                     kunde.setVorname(getTxtKundeVorname().getText());
-                    adresse.setOrt(getTxtKundeOrt().getText());
-                    adresse.setPlz(getTxtKundePlz().getText());
-                    adresse.setStrasse(getTxtKundeStrasse().getText());
+                    kunde.getAdresse().setOrt(getTxtKundeOrt().getText());
+                    kunde.getAdresse().setStrasse(getTxtKundeStrasse().getText());
+                    kunde.getAdresse().setPlz(getTxtKundePlz().getText());
                     kunde.setTelefonMobile(getTxtKundeTelefonMobile().getText());
                     kunde.setTelefonPrivat(getTxtKundeTelefon().getText());
                     kunde.setEmail(getTxtKundeEmail().getText());       //setBildwiederholfrequenz(Integer.parseInt(getTxtFrequenz().getText()));
@@ -414,13 +418,16 @@ public class MainFrame extends JFrame {
 
 
                     // Alle Felder leeren
-                    getTxtKundeVorname().setText("");
-                    getTxtKundeNachname().setText("");
-                    getTxtKundeStrasse().setText("");
-                    getTxtKundePlz().setText("");
-                    getTxtKundeOrt().setText("");
-                    getTxtKundeEmail().setText("");
-                    getTxtKundeTelefon().setText("");
+                    getTxtMarke().setText("");
+                    getTxtModell().setText("");
+                    getTxtPreis().setText("");
+                    getTxtDiagonale().setText("");
+                    getTxtAufloesung().setText("");
+                    getTxtFrequenz().setText("");
+                    getTxtGewicht().setText("");
+                    getTxtRelease().setText("");
+                    getTxtPixel().setText("");
+                    getTxtLeistung().setText("");
 
                     getTxtKundeVorname().requestFocus();
 
@@ -438,19 +445,27 @@ public class MainFrame extends JFrame {
         btnKundeLoeschen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Kunde kunde = kundeList.getSelectedValue();
 
-                        getTxtKundeVorname().setText(" ");
-                        getTxtKundeNachname().setText(" ");
-                        getTxtKundeStrasse().setText(" ");
-                        getTxtKundePlz().setText(" ");
-                        getTxtKundeOrt().setText(" ");
-                        getTxtKundeEmail().setText(" ");
-                        getTxtKundeTelefon().setText(" ");
+                if (kunde != null) {
+                    mainFrameController.getKundenController().deleteKunde(kunde);
+                    kundeListModel.removeElement(kunde);
 
+                    // Alle Textfelder auf leer setzen
+                    getTxtMarke().setText("");
+                    getTxtModell().setText("");
+                    getTxtPreis().setText("");
+                    getTxtDiagonale().setText("");
+                    getTxtAufloesung().setText("");
+                    getTxtFrequenz().setText("");
+                    getTxtGewicht().setText("");
+                    getTxtRelease().setText("");
+                    getTxtPixel().setText("");
+                    getTxtLeistung().setText("");
 
-                getCbTechnologie().setSelectedIndex(0);
-
-                //controller.delete();
+                    // ComboBox auf das erste Element zurücksetzen
+                    getCbTechnologie().setSelectedIndex(0);
+                }
             }
         });
 
@@ -459,17 +474,27 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-/*
-                    controller.saveKundeToDb(
-                            getTxtKundeVorname().getText(),
-                            getTxtKundeNachname().getText(),
-                            getTxtKundeStrasse().getText(),
-                            getTxtKundePlz().getText(),
-                            getTxtKundeOrt().getText(),
-                            getTxtKundeEmail().getText(),
-                            getTxtKundeTelefon().getText()
-                    );
-*/
+                    Kunde kunde = kundeList.getSelectedValue();
+                    if (kunde != null) {
+                        // text holen
+
+                        kunde.setNachname(getTxtKundeNachname().getText());
+                        kunde.setVorname(getTxtKundeVorname().getText());
+                        kunde.getAdresse().setOrt(getTxtKundeOrt().getText());
+                        kunde.getAdresse().setStrasse(getTxtKundeStrasse().getText());
+                        kunde.getAdresse().setPlz(getTxtKundePlz().getText());
+                        kunde.setTelefonMobile(getTxtKundeTelefonMobile().getText());
+                        kunde.setTelefonPrivat(getTxtKundeTelefon().getText());
+                        kunde.setEmail(getTxtKundeEmail().getText());
+                        kunde.setUsername(getTxtKundeUsername().getText());
+                        kunde.setPasswort(getTxtKundePasswort().getText());
+                        kunde.setGeburtsdatum(LocalDate.parse(getTxtKundeGeburtsdatum().toString()) );
+
+                        int currentIndex = kundeList.getSelectedIndex();
+                        kundeList.clearSelection();
+                        kundeList.setSelectedIndex(currentIndex);
+                    };
+
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(MainFrame.this, "Fehler: Bitte überprüfe die INT werte (Preis, Gewicht, Hz, Watt)!");
                 } catch (Exception ex) {
@@ -479,6 +504,9 @@ public class MainFrame extends JFrame {
         });
 
 
+        if (!kundeListModel.isEmpty()) {
+            kundeList.setSelectedIndex(0);
+        }
 
         south.add(btnKundeHinzufuegen); south.add(btnKundeLoeschen); south.add(Box.createHorizontalStrut(20)); south.add(btnKundeSpeichern);
         panel.add(south, BorderLayout.SOUTH);

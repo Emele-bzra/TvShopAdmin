@@ -19,6 +19,8 @@ public class Kunde {
 
     public Kunde() {}
 
+    Addresse addresse = new Addresse();
+
     @Override
     public String toString() {
         return vorname + " " + nachname;
