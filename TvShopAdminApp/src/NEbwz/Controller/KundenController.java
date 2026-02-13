@@ -13,8 +13,8 @@ public class KundenController {
         this.kundePersistence = kundePersistence;
     }
 
-    public List<Kunde> readKunde() {
-        return new ArrayList<>();
+    public List<Kunde> readKunde() {        //   return new ArrayList<>();
+        return this.kundePersistence.getKunden();
     }
 
     public void addKunde(Kunde toAdd)  {

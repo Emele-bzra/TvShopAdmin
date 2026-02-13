@@ -36,9 +36,10 @@ public class MainFrame extends JFrame {
     private JButton btnLoeschen;
     private JButton  btnSpeichern;
 
+
     //Attribute Für kuden
     private JList<String> kundeList;
-    private DefaultListModel<String> kundeListModel;
+    private DefaultListModel<Kunde> kundeListModel = new DefaultListModel<>();
     private JTextField txtKundeVorname;
     private JTextField txtKundeNachname;
     private JTextField txtKundeStrasse;
@@ -46,7 +47,10 @@ public class MainFrame extends JFrame {
     private JTextField txtKundeOrt;
     private JTextField txtKundeEmail;
     private JTextField txtKundeTelefon;
-
+    private JTextField txtKundeTelefonMobile;
+    private JTextField txtKundeGeburtsdatum;
+    private JTextField txtKundeUsername;
+    private JPasswordField txtKundePasswort;
 
     private JButton btnKundeHinzufuegen;
     private JButton btnKundeLoeschen;
@@ -55,7 +59,7 @@ public class MainFrame extends JFrame {
     public MainFrame(MainFrameController mainFrameController) {
         this.mainFrameController = mainFrameController;
 
-        setTitle("TV_Shop Admin-App");
+        setTitle("TV Shop");
         setSize(950, 580);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -83,6 +87,7 @@ public class MainFrame extends JFrame {
             tvListModel.addElement(fernseher);
         }
 
+        // JList<Fernseher> tvList = new JList<>(tvListModel);
         JList<Fernseher> tvList = new JList<>(tvListModel);
         tvList.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -189,16 +194,16 @@ public class MainFrame extends JFrame {
                     getTxtPixel().setText("");
                     getTxtLeistung().setText("");
 
-                    // ComboBox auf den ersten Eintrag zurücksetzen
+                    // ComboBox auf index 0 zurückstellen
                     getCbTechnologie().setSelectedIndex(0);
 
-                    // Fokus wieder auf das erste Feld setzen für die nächste Eingabe
+
                     getTxtMarke().requestFocus();
 
                     System.out.println("TV hinzugefügt und Felder geleert.");
 
                 } catch (NumberFormatException ex) {
-                    // Falls der Controller beim Umwandeln der Zahlen (Preis, Watt etc.) einen Fehler wirft
+                    // Falls es einen datentyp fehler wirft (auslöst)
                     JOptionPane.showMessageDialog(MainFrame.this,
                             "Fehler: Bitte überprüfe die Zahlenfelder! Die Eingaben wurden nicht gelöscht.");
                 }
@@ -282,25 +287,63 @@ public class MainFrame extends JFrame {
     }
 
 
+
+
+
+
+
+    //Kunde----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
     private JPanel createKundePanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
 
 
         JPanel left = new JPanel(new BorderLayout());
         left.setBorder(BorderFactory.createTitledBorder("Kunden Liste"));
-        kundeListModel = new DefaultListModel<>();
+       /* kundeListModel = new DefaultListModel<>();
         kundeListModel.addElement("Florian Elser");
         kundeListModel.addElement("Noel Emele");
-        kundeListModel.addElement("Nicholas Malinov");
+        kundeListModel.addElement("Nicholas Malinov"); */
 
-        kundeList = new JList<>(kundeListModel);
+
+        for (Kunde kunde : mainFrameController.getKundenController().readKunde()) {
+            kundeListModel.addElement(kunde);
+        }
+
+        JList<Kunde> kundeList = new JList<>(kundeListModel);
+        kundeList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Kunde kunde = kundeList.getSelectedValue();
+                if (kunde != null) {
+                    // text setzen
+                    getTxtKundeNachname().setText(kunde.getNachname());
+                    getTxtKundeVorname().setText(kunde.getVorname());
+                    //adresse muss noch da rein
+                    getTxtKundeTelefon().setText(kunde.getTelefonPrivat());
+                    getTxtKundeTelefonMobile().setText(String.valueOf(kunde.getTelefonMobile()));
+                    getTxtKundeEmail().setText(String.valueOf(kunde.getEmail()));
+                    getTxtKundeGeburtsdatum().setText(String.valueOf(kunde.getGeburtsdatum().toString()));
+                    getTxtKundeUsername().setText(kunde.getUsername());
+                    getTxtKundePasswort().setText(kunde.getPasswort());
+
+                }
+            }
+        });
 
         left.add(new JScrollPane(kundeList), BorderLayout.CENTER);
         left.setPreferredSize(new Dimension(220, 0));
         panel.add(left, BorderLayout.WEST);
 
         //Kunden formular
-        JPanel details = new JPanel(new GridLayout(7, 2, 10, 10));
+        JPanel details = new JPanel(new GridLayout(11, 2, 10, 10));
         details.setBorder(BorderFactory.createTitledBorder("Kunden Details:"));
 
         details.add(new JLabel("Vorname:"));
@@ -324,6 +367,17 @@ public class MainFrame extends JFrame {
         details.add(new JLabel("Telefon:"));
         details.add(txtKundeTelefon = new JTextField());
 
+        details.add(new JLabel("Mobile Telefon:"));
+        details.add(txtKundeTelefonMobile = new JTextField());
+
+        details.add(new JLabel("Geburtsdatum:"));
+        details.add(txtKundeGeburtsdatum = new JTextField());
+
+        details.add(new JLabel("Username:"));
+        details.add(txtKundeUsername = new JTextField());
+
+        details.add(new JLabel("Passwort:"));
+        details.add(txtKundePasswort = new JPasswordField());
 
         JPanel wrapper = new JPanel(new BorderLayout());
         wrapper.add(details, BorderLayout.NORTH);
@@ -435,6 +489,38 @@ public class MainFrame extends JFrame {
     public JButton getBtnSpeichern() { return btnSpeichern; }
     public DefaultListModel<Fernseher> getTvListModel() { return tvListModel; }
 
+
+    public JTextField getTxtKundeUsername() {
+        return txtKundeUsername;
+    }
+
+    public void setTxtKundeUsername(JTextField txtKundeUsername) {
+        this.txtKundeUsername = txtKundeUsername;
+    }
+
+    public JPasswordField getTxtKundePasswort() {
+        return txtKundePasswort;
+    }
+
+    public void setTxtKundePasswort(JPasswordField txtKundePasswort) {
+        this.txtKundePasswort = txtKundePasswort;
+    }
+
+    public JTextField getTxtKundeGeburtsdatum() {
+        return txtKundeGeburtsdatum;
+    }
+
+    public void setTxtKundeGeburtsdatum(JTextField txtKundeGeburtsdatum) {
+        this.txtKundeGeburtsdatum = txtKundeGeburtsdatum;
+    }
+
+    public JTextField getTxtKundeTelefonMobile() {
+        return txtKundeTelefonMobile;
+    }
+
+    public void setTxtKundeTelefonMobile(JTextField txtKundeTelefonMobile) {
+        this.txtKundeTelefonMobile = txtKundeTelefonMobile;
+    }
 
     public JTextField getTxtKundeVorname() {
         return txtKundeVorname;

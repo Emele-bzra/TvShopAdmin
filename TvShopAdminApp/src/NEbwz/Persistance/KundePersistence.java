@@ -1,10 +1,12 @@
 package NEbwz.Persistance;
 
+import NEbwz.Model.Fernseher;
 import NEbwz.Model.Kunde;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -45,5 +47,19 @@ public class KundePersistence {
 
     private MongoDatabase getDatabase() {
         return mongoClient.getDatabase("TVShop").withCodecRegistry(pojoCodecRegistry);
+    }
+
+    public void updateKunden(Kunde kunde) {
+        MongoCollection<Kunde> tvs = getCollection();
+        tvs.replaceOne(
+                Filters.eq("_id", kunde.getId()),
+                kunde
+        );
+    }
+
+
+    private MongoCollection<Kunde> getCollection() {
+        MongoDatabase database = mongoClient.getDatabase("TVShop").withCodecRegistry(pojoCodecRegistry);
+        return database.getCollection("Kunde", Kunde.class);
     }
 }
