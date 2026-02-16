@@ -1,12 +1,12 @@
 package NEbwz.Model;
 
-public class Addresse {
+public class Adresse {
     private String strasse;
     private String plz;
     private String ort;
 
-    public Addresse() { }
-    public Addresse(String strasse, String plz, String ort) {
+    public Adresse() { }
+    public Adresse(String strasse, String plz, String ort) {
         this.strasse = strasse;
         this.plz = plz;
         this.ort = ort;

@@ -54,16 +54,16 @@ public class DbInitializer {
     }
 
     private void seedKunden() {
-        Addresse a1 = new Addresse("Bahnhofstrasse 12", "8001", "Zürich");
-        Addresse a2 = new Addresse("Seestrasse 88", "8640", "Rapperswil");
-        Addresse a3 = new Addresse("Hauptplatz 5", "9000", "St. Gallen");
-        Addresse a4 = new Addresse("Dorfweg 3", "6300", "Zug");
-        Addresse a5 = new Addresse("Industriestrasse 44", "8400", "Winterthur");
-        Addresse a6 = new Addresse("Poststrasse 10", "7000", "Chur");
-        Addresse a7 = new Addresse("Alpenblick 7", "3800", "Interlaken");
-        Addresse a8 = new Addresse("Marktgasse 2", "3011", "Bern");
-        Addresse a9 = new Addresse("Rheinweg 21", "4051", "Basel");
-        Addresse a10 = new Addresse("Lindenstrasse 9", "6003", "Luzern");
+        Adresse a1 = new Adresse("Bahnhofstrasse 12", "8001", "Zürich");
+        Adresse a2 = new Adresse("Seestrasse 88", "8640", "Rapperswil");
+        Adresse a3 = new Adresse("Hauptplatz 5", "9000", "St. Gallen");
+        Adresse a4 = new Adresse("Dorfweg 3", "6300", "Zug");
+        Adresse a5 = new Adresse("Industriestrasse 44", "8400", "Winterthur");
+        Adresse a6 = new Adresse("Poststrasse 10", "7000", "Chur");
+        Adresse a7 = new Adresse("Alpenblick 7", "3800", "Interlaken");
+        Adresse a8 = new Adresse("Marktgasse 2", "3011", "Bern");
+        Adresse a9 = new Adresse("Rheinweg 21", "4051", "Basel");
+        Adresse a10 = new Adresse("Lindenstrasse 9", "6003", "Luzern");
 
         Kunde p1 = new Kunde();
         p1.setAnrede("Herr");

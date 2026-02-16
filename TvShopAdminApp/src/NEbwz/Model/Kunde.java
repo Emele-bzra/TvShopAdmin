@@ -9,7 +9,7 @@ public class Kunde {
     private String anrede;
     private String nachname;
     private String vorname;
-    private Addresse adresse;
+    private Adresse adresse = new Adresse();
     private String telefonPrivat;
     private String telefonMobile;
     private String email;
@@ -19,7 +19,6 @@ public class Kunde {
 
     public Kunde() {}
 
-    Addresse addresse = new Addresse();
 
     @Override
     public String toString() {
@@ -34,8 +33,8 @@ public class Kunde {
     public void setNachname(String nachname) { this.nachname = nachname; }
     public String getVorname() { return vorname; }
     public void setVorname(String vorname) { this.vorname = vorname; }
-    public Addresse getAdresse() { return adresse; }
-    public void setAdresse(Addresse adresse) { this.adresse = adresse; }
+    public Adresse getAdresse() { return adresse; }
+    public void setAdresse(Adresse adresse) { this.adresse = adresse; }
     public String getTelefonPrivat() { return telefonPrivat; }
     public void setTelefonPrivat(String telefonPrivat) { this.telefonPrivat = telefonPrivat; }
     public String getTelefonMobile() { return telefonMobile; }

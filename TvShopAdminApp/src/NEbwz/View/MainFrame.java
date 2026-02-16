@@ -31,6 +31,7 @@ public class MainFrame extends JFrame {
     private JTextField txtLeistung;
     private JTextField txtAufloesung;
 
+
     private JComboBox<DisplayTechnologie> cbTechnologie;
     private JButton btnHinzufuegen;
     private JButton btnLoeschen;
@@ -40,6 +41,7 @@ public class MainFrame extends JFrame {
     //Attribute Für kuden
     private JList<String> kundeList;
     private DefaultListModel<Kunde> kundeListModel = new DefaultListModel<>();
+    private JTextField txtAnrede;
     private JTextField txtKundeVorname;
     private JTextField txtKundeNachname;
     private JTextField txtKundeStrasse;
@@ -324,7 +326,7 @@ public class MainFrame extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 Kunde kunde = kundeList.getSelectedValue();
                 if (kunde != null) {
-                    Addresse addresse = new Addresse();
+                    Adresse addresse = kunde.getAdresse();
                     // text setzen
                     getTxtKundeNachname().setText(kunde.getNachname());
                     getTxtKundeVorname().setText(kunde.getVorname());
@@ -332,6 +334,7 @@ public class MainFrame extends JFrame {
                     getTxtKundePlz().setText(addresse.getPlz());  //--------------------------------------------------------------Fehler
                     getTxtKundeStrasse().setText(addresse.getStrasse());
                     getTxtKundeTelefon().setText(kunde.getTelefonPrivat());
+                    getTxtAnrede().setText(kunde.getAnrede());
                     kunde.getAdresse().setOrt(getTxtKundeOrt().getText());
                     kunde.getAdresse().setPlz(getTxtKundePlz().getText());
                     kunde.getAdresse().setStrasse(getTxtKundeStrasse().getText());
@@ -350,8 +353,11 @@ public class MainFrame extends JFrame {
         panel.add(left, BorderLayout.WEST);
 
         //Kunden formular
-        JPanel details = new JPanel(new GridLayout(11, 2, 10, 10));
+        JPanel details = new JPanel(new GridLayout(12, 2, 10, 10));
         details.setBorder(BorderFactory.createTitledBorder("Kunden Details:"));
+
+        details.add(new JLabel("Anrede:"));
+        details.add(txtAnrede = new JTextField());
 
         details.add(new JLabel("Vorname:"));
         details.add(txtKundeVorname = new JTextField());
@@ -398,42 +404,45 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
 
-
                     Kunde kunde = new Kunde();
                     // text holen
                     kunde.setNachname(getTxtKundeNachname().getText());
                     kunde.setVorname(getTxtKundeVorname().getText());
+                    kunde.setAnrede(getTxtAnrede().getText());
                     kunde.getAdresse().setOrt(getTxtKundeOrt().getText());
                     kunde.getAdresse().setStrasse(getTxtKundeStrasse().getText());
                     kunde.getAdresse().setPlz(getTxtKundePlz().getText());
                     kunde.setTelefonMobile(getTxtKundeTelefonMobile().getText());
                     kunde.setTelefonPrivat(getTxtKundeTelefon().getText());
-                    kunde.setEmail(getTxtKundeEmail().getText());       //setBildwiederholfrequenz(Integer.parseInt(getTxtFrequenz().getText()));
+                    kunde.setEmail(getTxtKundeEmail().getText());//setBildwiederholfrequenz(Integer.parseInt(getTxtFrequenz().getText()));
                     kunde.setUsername(getTxtKundeUsername().getText());
                     kunde.setPasswort(getTxtKundePasswort().getText());
-                    kunde.setGeburtsdatum(LocalDate.parse(getTxtKundeGeburtsdatum().toString()) );
+                    kunde.setGeburtsdatum(LocalDate.parse(getTxtKundeGeburtsdatum().getText()));
 
                     mainFrameController.getKundenController().addKunde(kunde);
                     kundeListModel.addElement(kunde);
 
 
                     // Alle Felder leeren
-                    getTxtMarke().setText("");
-                    getTxtModell().setText("");
-                    getTxtPreis().setText("");
-                    getTxtDiagonale().setText("");
-                    getTxtAufloesung().setText("");
-                    getTxtFrequenz().setText("");
-                    getTxtGewicht().setText("");
-                    getTxtRelease().setText("");
-                    getTxtPixel().setText("");
-                    getTxtLeistung().setText("");
+                    getTxtAnrede().setText("");
+                    getTxtKundeVorname().setText("");
+                    getTxtKundeNachname().setText("");
+                    getTxtKundeTelefon().setText("");
+                    getTxtKundeTelefonMobile().setText("");
+                    getTxtKundeEmail().setText("");
+                    getTxtKundeGeburtsdatum().setText("");
+                    getTxtKundeOrt().setText("");
+                    getTxtKundePlz().setText("");
+                    getTxtKundeStrasse().setText("");
+                    getTxtKundeUsername().setText("");
+                    getTxtKundePasswort().setText("");
 
                     getTxtKundeVorname().requestFocus();
 
                     System.out.println("Kunde erfolgreich gespeichert und Felder geleert.");
 
                 } catch (Exception ex) {
+                    System.out.print(ex);
                     JOptionPane.showMessageDialog(MainFrame.this,
                             "Fehler beim Hinzufügen des Kunden: " + ex.getMessage());
                 }
@@ -452,16 +461,18 @@ public class MainFrame extends JFrame {
                     kundeListModel.removeElement(kunde);
 
                     // Alle Textfelder auf leer setzen
-                    getTxtMarke().setText("");
-                    getTxtModell().setText("");
-                    getTxtPreis().setText("");
-                    getTxtDiagonale().setText("");
-                    getTxtAufloesung().setText("");
-                    getTxtFrequenz().setText("");
-                    getTxtGewicht().setText("");
-                    getTxtRelease().setText("");
-                    getTxtPixel().setText("");
-                    getTxtLeistung().setText("");
+                    getTxtAnrede().setText("");
+                    getTxtKundeVorname().setText("");
+                    getTxtKundeNachname().setText("");
+                    getTxtKundeTelefon().setText("");
+                    getTxtKundeTelefonMobile().setText("");
+                    getTxtKundeEmail().setText("");
+                    getTxtKundeGeburtsdatum().setText("");
+                    getTxtKundeOrt().setText("");
+                    getTxtKundePlz().setText("");
+                    getTxtKundeStrasse().setText("");
+                    getTxtKundePasswort().setText("");
+                    getTxtKundeUsername().setText("");
 
                     // ComboBox auf das erste Element zurücksetzen
                     getCbTechnologie().setSelectedIndex(0);
@@ -478,6 +489,7 @@ public class MainFrame extends JFrame {
                     if (kunde != null) {
                         // text holen
 
+                        kunde.setAnrede(getTxtAnrede().getText());
                         kunde.setNachname(getTxtKundeNachname().getText());
                         kunde.setVorname(getTxtKundeVorname().getText());
                         kunde.getAdresse().setOrt(getTxtKundeOrt().getText());
@@ -488,7 +500,8 @@ public class MainFrame extends JFrame {
                         kunde.setEmail(getTxtKundeEmail().getText());
                         kunde.setUsername(getTxtKundeUsername().getText());
                         kunde.setPasswort(getTxtKundePasswort().getText());
-                        kunde.setGeburtsdatum(LocalDate.parse(getTxtKundeGeburtsdatum().toString()) );
+                        kunde.setGeburtsdatum(LocalDate.parse(getTxtKundeGeburtsdatum().getText()));
+                        mainFrameController.getKundenController().updateKunde(kunde);
 
                         int currentIndex = kundeList.getSelectedIndex();
                         kundeList.clearSelection();
@@ -529,6 +542,13 @@ public class MainFrame extends JFrame {
     public DefaultListModel<Fernseher> getTvListModel() { return tvListModel; }
 
 
+    public JTextField getTxtAnrede() {
+        return txtAnrede;
+    }
+
+    public void setTxtAnrede(JTextField txtAnrede) {
+        this.txtAnrede = txtAnrede;
+    }
 
     public JTextField getTxtKundeUsername() {
         return txtKundeUsername;
