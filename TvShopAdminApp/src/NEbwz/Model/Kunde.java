@@ -50,7 +50,7 @@ public class Kunde {
     public byte[] getPasswort() { return passwort; }
     public void setPasswort(byte[] passwort) { this.passwort = passwort; }
     public byte[] getSalt() { return salt; }
-    public void setSalt(byte[] passwort) { this.salt = salt; }
+    public void setSalt(byte[] salt) { this.salt = salt; }
 
     @Override
     public boolean equals(Object o) {
