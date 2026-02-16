@@ -3,6 +3,7 @@ package NEbwz.Model;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Kunde {
     private ObjectId id;
@@ -47,4 +48,16 @@ public class Kunde {
     public void setUsername(String username) { this.username = username; }
     public String getPasswort() { return passwort; }
     public void setPasswort(String passwort) { this.passwort = passwort; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Kunde kunde = (Kunde) o;
+        return Objects.equals(id, kunde.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

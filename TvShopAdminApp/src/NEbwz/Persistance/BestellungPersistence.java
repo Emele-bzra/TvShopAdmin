@@ -1,10 +1,12 @@
 package NEbwz.Persistance;
 
 import NEbwz.Model.Bestellung;
+import NEbwz.Model.Fernseher;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -30,20 +32,32 @@ public class BestellungPersistence {
     }
 
     public List<Bestellung> getBestellungen() {
-        MongoDatabase database = getDatabase();
         List<Bestellung> bestellungen = new ArrayList<>();
-        database.getCollection("Bestellung", Bestellung.class).find().into(bestellungen);
+        getCollection().find().into(bestellungen);
         return bestellungen;
     }
 
     public void addBestellung(Bestellung bestellung) {
-        MongoDatabase database = getDatabase();
-        MongoCollection<Bestellung> bestellungen = database.getCollection("Bestellung", Bestellung.class);
+        MongoCollection<Bestellung> bestellungen = getCollection();
         bestellungen.insertOne(bestellung);
 
     }
 
-    private MongoDatabase getDatabase() {
-        return mongoClient.getDatabase("TVShop").withCodecRegistry(pojoCodecRegistry);
+    public void updateBestellung(Bestellung bestellung) {
+        MongoCollection<Bestellung> tvs = getCollection();
+        tvs.replaceOne(
+                Filters.eq("_id", bestellung.getId()),
+                bestellung
+        );
+    }
+
+    public void deleteBestellung(Bestellung bestellung) {
+        MongoCollection<Bestellung> bestellungen = getCollection();
+        bestellungen.deleteOne(Filters.eq("_id", bestellung.getId()));
+    }
+
+    private MongoCollection<Bestellung> getCollection() {
+        MongoDatabase database = mongoClient.getDatabase("TVShop").withCodecRegistry(pojoCodecRegistry);
+        return database.getCollection("Bestellung", Bestellung.class);
     }
 }

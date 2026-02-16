@@ -5,20 +5,20 @@ import NEbwz.Model.DisplayTechnologie;
 import NEbwz.Model.*;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.time.LocalDate;
 
 public class MainFrame extends JFrame {
     private MainFrameController mainFrameController;
-
-    //attribute Für Fernseher
     private JTabbedPane tabbedPane;
 
-    private JList<String> tvList;
+    //attribute Für Fernseher
+    private JList<Fernseher> tvList;
     private DefaultListModel<Fernseher> tvListModel = new DefaultListModel<>();
     private JTextField txtMarke;
     private JTextField txtModell;
@@ -39,7 +39,7 @@ public class MainFrame extends JFrame {
 
 
     //Attribute Für kuden
-    private JList<String> kundeList;
+    private JList<Kunde> kundeList;
     private DefaultListModel<Kunde> kundeListModel = new DefaultListModel<>();
     private JTextField txtAnrede;
     private JTextField txtKundeVorname;
@@ -58,6 +58,18 @@ public class MainFrame extends JFrame {
     private JButton btnKundeLoeschen;
     private JButton btnKundeSpeichern;
 
+
+    //attribute Für Bestellungen
+    private JList<Bestellung> bestellungList;
+    private DefaultListModel<Bestellung> bestellungenListModel = new DefaultListModel<>();
+    private JTextField txtBestelldatum;
+    private JTextField txtTotal;
+
+    private JButton btnBestellungHinzufuegen;
+    private JButton btnBestellungLoeschen;
+    private JButton btnBestellungSpeichern;
+
+
     public MainFrame(MainFrameController mainFrameController) {
         this.mainFrameController = mainFrameController;
 
@@ -70,10 +82,10 @@ public class MainFrame extends JFrame {
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("TVs", createTvPanel());
         tabbedPane.addTab("Kunden", createKundePanel());
+        tabbedPane.addTab("Bestellungen", createBestellungPanel());
 
-        JPanel bestellungPanel = new JPanel(new BorderLayout());
-        bestellungPanel.add(new JLabel("Nothing.", SwingConstants.CENTER));
-        tabbedPane.addTab("Bestellungen", bestellungPanel);
+//        JPanel bestellungPanel = new JPanel(new BorderLayout());
+//        bestellungPanel.add(new JLabel("Nothing.", SwingConstants.CENTER));
 
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -89,8 +101,7 @@ public class MainFrame extends JFrame {
             tvListModel.addElement(fernseher);
         }
 
-        // JList<Fernseher> tvList = new JList<>(tvListModel);
-        JList<Fernseher> tvList = new JList<>(tvListModel);
+        tvList = new JList<>(tvListModel);
         tvList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -310,17 +321,12 @@ public class MainFrame extends JFrame {
 
         JPanel left = new JPanel(new BorderLayout());
         left.setBorder(BorderFactory.createTitledBorder("Kunden Liste"));
-       /* kundeListModel = new DefaultListModel<>();
-        kundeListModel.addElement("Florian Elser");
-        kundeListModel.addElement("Noel Emele");
-        kundeListModel.addElement("Nicholas Malinov"); */
-
 
         for (Kunde kunde : mainFrameController.getKundenController().readKunde()) {
             kundeListModel.addElement(kunde);
         }
 
-        JList<Kunde> kundeList = new JList<>(kundeListModel);
+        kundeList = new JList<>(kundeListModel);
         kundeList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -414,7 +420,7 @@ public class MainFrame extends JFrame {
                     kunde.getAdresse().setPlz(getTxtKundePlz().getText());
                     kunde.setTelefonMobile(getTxtKundeTelefonMobile().getText());
                     kunde.setTelefonPrivat(getTxtKundeTelefon().getText());
-                    kunde.setEmail(getTxtKundeEmail().getText());//setBildwiederholfrequenz(Integer.parseInt(getTxtFrequenz().getText()));
+                    kunde.setEmail(getTxtKundeEmail().getText());
                     kunde.setUsername(getTxtKundeUsername().getText());
                     kunde.setPasswort(getTxtKundePasswort().getText());
                     kunde.setGeburtsdatum(LocalDate.parse(getTxtKundeGeburtsdatum().getText()));
@@ -526,6 +532,239 @@ public class MainFrame extends JFrame {
 
         return panel;
     }
+
+
+    private JPanel createBestellungPanel() {
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+
+        JPanel left = new JPanel(new BorderLayout());
+        left.setBorder(BorderFactory.createTitledBorder("Bestellungsliste"));
+        JPanel positionListPanel = new JPanel();
+        positionListPanel.setLayout(new BoxLayout(positionListPanel, BoxLayout.Y_AXIS));
+
+        JPanel details = new JPanel();
+        details.setLayout(new BoxLayout(details, BoxLayout.Y_AXIS));
+
+        bestellungList = new JList<>(bestellungenListModel);
+        bestellungList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Bestellung bestellung = bestellungList.getSelectedValue();
+
+                if (bestellung != null) {
+                    positionListPanel.removeAll();
+
+                    int pos = 1;
+                    for (BestellPosition position :  bestellung.getPositionen()) {
+                        // Datenreihe, für jede Position ein eigener Eintrag
+                        JPanel rowPanel = new JPanel();
+                        rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
+
+                        JLabel positionLabel = new JLabel("Position " +  (pos++) + ":");
+                        JComboBox<Object> tvComboBox = new JComboBox<>(tvListModel.toArray());
+
+                        rowPanel.add(positionLabel);
+                        rowPanel.add(Box.createHorizontalStrut(15));
+
+                        rowPanel.add(tvComboBox);
+                        rowPanel.add(Box.createHorizontalStrut(15));
+                        tvComboBox.setSelectedItem(position.getTv());
+                        tvComboBox.setEnabled(false);
+
+                        rowPanel.add(new JLabel("Einzelpreis:"));
+                        rowPanel.add(Box.createHorizontalStrut(5));
+
+                        JTextField priceField = new JTextField(5);
+                        priceField.setText(String.valueOf(position.getTv().getPreis()));
+                        priceField.setEditable(false);
+                        rowPanel.add(priceField);
+
+                        rowPanel.add(Box.createHorizontalStrut(15));
+                        rowPanel.add(new JLabel("Anzahl:"));
+                        rowPanel.add(Box.createHorizontalStrut(5));
+
+                        JTextField quantityField = new JTextField(5);
+                        quantityField.setText(String.valueOf(position.getStueckzahl()));
+                        rowPanel.add(quantityField);
+
+                        positionListPanel.add(rowPanel);
+                        positionListPanel.add(Box.createVerticalStrut(8));
+                    }
+
+                    positionListPanel.setVisible(true);
+                    positionListPanel.revalidate();
+                    positionListPanel.repaint();
+
+                    // text setzen
+                    /*
+                    getTxtMarke().setText(tv.getMarke());
+                    getTxtModell().setText(tv.getModell());
+                    getTxtDiagonale().setText(tv.getBildschirmdiagonale());
+                    getTxtPreis().setText(String.valueOf(tv.getPreis()));
+                    getTxtFrequenz().setText(String.valueOf(tv.getBildwiederholfrequenz()));
+                    getTxtGewicht().setText(String.valueOf(tv.getGewicht()));
+                    getTxtRelease().setText(tv.getReleaseDatum().toString());
+                    getTxtPixel().setText(tv.getPixelAufloesung());
+                    getTxtAufloesung().setText(tv.getAufloesung());
+                    getTxtLeistung().setText(String.valueOf(tv.getNennleistung()));
+                    getCbTechnologie().getModel().setSelectedItem(tv.getDisplayTechnologie());
+                    */
+                }
+            }
+        });
+
+        left.add(new JScrollPane(bestellungList), BorderLayout.CENTER);
+        left.setPreferredSize(new Dimension(220, 0));
+        panel.add(left, BorderLayout.WEST);
+
+        JPanel wrapper = new JPanel(new BorderLayout());
+        wrapper.add(details, BorderLayout.NORTH);
+        panel.add(wrapper, BorderLayout.CENTER);
+
+        // editier Buttons
+        JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+        btnHinzufuegen = new JButton("Hinzufügen");
+/*
+       btnHinzufuegen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Fernseher tv = new Fernseher();
+                    // text holen
+                    tv.setMarke(getTxtMarke().getText());
+                    tv.setModell(getTxtModell().getText());
+                    tv.setBildschirmdiagonale(getTxtDiagonale().getText());
+                    tv.setPreis(Double.parseDouble(getTxtPreis().getText()));
+                    tv.setBildwiederholfrequenz(Integer.parseInt(getTxtFrequenz().getText()));
+                    tv.setGewicht(Double.parseDouble(getTxtGewicht().getText()));
+                    tv.setReleaseDatum(LocalDate.parse(getTxtRelease().getText()));
+                    tv.setPixelAufloesung(getTxtPixel().getText());
+                    tv.setAufloesung(getTxtAufloesung().getText());
+                    tv.setNennleistung(Integer.parseInt(getTxtLeistung().getText()));
+                    tv.setDisplayTechnologie(String.valueOf(getCbTechnologie().getModel().getSelectedItem()));
+
+                    mainFrameController.getFernsehController().addFernseher(tv);
+                    tvListModel.addElement(tv);
+
+                    // felder leeren
+                    getTxtMarke().setText("");
+                    getTxtModell().setText("");
+                    getTxtPreis().setText("");
+                    getTxtDiagonale().setText("");
+                    getTxtAufloesung().setText("");
+                    getTxtFrequenz().setText("");
+                    getTxtGewicht().setText("");
+                    getTxtRelease().setText("");
+                    getTxtPixel().setText("");
+                    getTxtLeistung().setText("");
+
+                    // ComboBox auf index 0 zurückstellen
+                    getCbTechnologie().setSelectedIndex(0);
+
+
+                    getTxtMarke().requestFocus();
+
+                    System.out.println("TV hinzugefügt und Felder geleert.");
+
+                } catch (NumberFormatException ex) {
+                    // Falls es einen datentyp fehler wirft (auslöst)
+                    JOptionPane.showMessageDialog(MainFrame.this,
+                            "Fehler: Bitte überprüfe die Zahlenfelder! Die Eingaben wurden nicht gelöscht.");
+                }
+            }
+
+        });
+
+
+*/
+        btnLoeschen = new JButton("Löschen");
+        btnLoeschen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Bestellung bestellung = bestellungList.getSelectedValue();
+
+                if (bestellung != null) {
+                    mainFrameController.getBestellungController().deleteBestellung(bestellung);
+                    bestellungenListModel.removeElement(bestellung);
+
+                    // Alle Textfelder auf leer setzen
+                    positionListPanel.removeAll();
+                    positionListPanel.revalidate();
+                    positionListPanel.repaint();
+                }
+            }
+        });
+
+        btnSpeichern = new JButton("Speichern");
+        btnSpeichern.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Bestellung bestellung = bestellungList.getSelectedValue();
+
+                    if (bestellung != null) {
+                        double total = 0;
+                        int index = 0;
+                        for (Component component : positionListPanel.getComponents()) {
+                            if (component instanceof JPanel) {
+                                JPanel rowPanel = (JPanel)component;
+                                JTextField quantityField = (JTextField)rowPanel.getComponent(10);
+
+                                BestellPosition position = bestellung.getPositionen().get(index);
+                                position.setStueckzahl(Integer.valueOf(quantityField.getText()));
+                                total += position.getStueckzahl() * position.getTv().getPreis();
+                                index++;
+                            }
+                        }
+
+                        bestellung.setTotal(total);
+                        mainFrameController.getBestellungController().updateBestellung(bestellung);
+
+                        int currentIndex = bestellungList.getSelectedIndex();
+                        bestellungList.clearSelection();
+                        bestellungList.setSelectedIndex(currentIndex);
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(MainFrame.this, "Fehler: Bitte überprüfe die INT werte (Preis, Gewicht, Hz, Watt)!");
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(MainFrame.this, "Allgemeiner Fehler: " + ex.getMessage());
+                }
+            }
+        });
+
+        south.add(btnHinzufuegen);
+        south.add(btnLoeschen);
+        south.add(Box.createHorizontalStrut(20));
+        south.add(btnSpeichern);
+        panel.add(south, BorderLayout.SOUTH);
+
+        tabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                bestellungenListModel.clear();
+
+                for (Bestellung bestellung : mainFrameController.getBestellungController().readBestellung(kundeList.getSelectedValue())) {
+                    bestellungenListModel.addElement(bestellung);
+                }
+
+                positionListPanel.removeAll();
+                details.removeAll();
+                details.setBorder(BorderFactory.createTitledBorder("Details für '"  + kundeList.getSelectedValue() + "':"));
+                details.add(positionListPanel);
+                details.revalidate();
+                details.repaint();
+            }
+        });
+
+        if (!bestellungenListModel.isEmpty()) {
+            bestellungList.setSelectedIndex(0);
+        }
+
+        return panel;
+    }
+
+
 
     public JTextField getTxtMarke() { return txtMarke; }
     public JTextField getTxtModell() { return txtModell; }

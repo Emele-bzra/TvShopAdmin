@@ -3,6 +3,7 @@ package NEbwz.Persistance;
 import NEbwz.Model.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
@@ -38,7 +39,7 @@ public class DbInitializer {
 
     private void seedBestellungen() {
         Kunde firstKunde = kundePersistence.getKunden().getFirst();
-        Fernseher firstFernseher = fernseherPersistence.getFernseher().getFirst();
+        List<Fernseher> fernseher = fernseherPersistence.getFernseher();
 
         Bestellung newBestellung = new Bestellung();
         newBestellung.setKunde(firstKunde);
@@ -46,10 +47,15 @@ public class DbInitializer {
         newBestellung.setTotal(848.80);
 
         BestellPosition p1 = new BestellPosition();
-        p1.setTv(firstFernseher);
+        p1.setTv(fernseher.getFirst());
         p1.setStueckzahl(1);
 
+        BestellPosition p2 = new BestellPosition();
+        p2.setTv(fernseher.get(1));
+        p2.setStueckzahl(2);
+
         newBestellung.getPositionen().add(p1);
+        newBestellung.getPositionen().add(p2);
         bestellungPersistence.addBestellung(newBestellung);
     }
 

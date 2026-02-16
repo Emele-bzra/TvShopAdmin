@@ -3,6 +3,7 @@ package NEbwz.Model;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 
 public class Fernseher {
@@ -57,4 +58,16 @@ public class Fernseher {
     public void setPixelAufloesung(String pixelAufloesung) { this.pixelAufloesung = pixelAufloesung; }
     public int getNennleistung() { return nennleistung; }
     public void setNennleistung(int nennleistung) { this.nennleistung = nennleistung; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Fernseher fernseher = (Fernseher) o;
+        return Objects.equals(id, fernseher.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
