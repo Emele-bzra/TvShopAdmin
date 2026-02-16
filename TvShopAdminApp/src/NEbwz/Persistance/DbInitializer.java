@@ -44,7 +44,7 @@ public class DbInitializer {
         Bestellung newBestellung = new Bestellung();
         newBestellung.setKunde(firstKunde);
         newBestellung.setBestelldatum(LocalDate.of(2025, 10, 25));
-        newBestellung.setTotal(848.80);
+        newBestellung.setTotal(5097.99);
 
         BestellPosition p1 = new BestellPosition();
         p1.setTv(fernseher.getFirst());
