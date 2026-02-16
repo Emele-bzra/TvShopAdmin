@@ -17,12 +17,12 @@ public class KundenController {
         return this.kundePersistence.getKunden();
     }
 
-    public void addKunde(Kunde toAdd)  {
-        this.kundePersistence.addKunden(toAdd);
+    public void addKunde(Kunde toAdd, String password)  {
+        this.kundePersistence.addKunden(toAdd, password);
     }
 
-    public void updateKunde(Kunde toUpdate)  {
-        this.kundePersistence.updateKunden(toUpdate);
+    public void updateKunde(Kunde toUpdate, String password)  {
+        this.kundePersistence.updateKunden(toUpdate, password);
     }
 
     public void deleteKunde(Kunde toDelete) {

@@ -17,9 +17,11 @@ public class BestellungController {
     public List<Bestellung> readBestellung(Kunde toSelect) {
         List<Bestellung> bestellungen = new ArrayList<>();
 
-        for (Bestellung bestellung : this.bestellungPersistence.getBestellungen()) {
-            if (Objects.equals(bestellung.getKunde().getId(), toSelect.getId())) {
-                bestellungen.add(bestellung);
+        if (toSelect != null) {
+            for (Bestellung bestellung : this.bestellungPersistence.getBestellungen()) {
+                if (Objects.equals(bestellung.getKunde().getId(), toSelect.getId())) {
+                    bestellungen.add(bestellung);
+                }
             }
         }
         return bestellungen;

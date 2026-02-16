@@ -16,7 +16,8 @@ public class Kunde {
     private String email;
     private LocalDate geburtsdatum;
     private String username;
-    private String passwort;
+    private byte[] passwort;
+    private byte[] salt;
 
     public Kunde() {}
 
@@ -46,8 +47,10 @@ public class Kunde {
     public void setGeburtsdatum(LocalDate geburtsdatum) { this.geburtsdatum = geburtsdatum; }
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
-    public String getPasswort() { return passwort; }
-    public void setPasswort(String passwort) { this.passwort = passwort; }
+    public byte[] getPasswort() { return passwort; }
+    public void setPasswort(byte[] passwort) { this.passwort = passwort; }
+    public byte[] getSalt() { return salt; }
+    public void setSalt(byte[] passwort) { this.salt = salt; }
 
     @Override
     public boolean equals(Object o) {

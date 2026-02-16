@@ -81,8 +81,7 @@ public class DbInitializer {
         p1.setEmail("thomas.mueller@example.com");
         p1.setGeburtsdatum(LocalDate.of(1985, 3, 12));
         p1.setUsername("tmueller");
-        p1.setPasswort("Passwort123!");
-        kundePersistence.addKunden(p1);
+        kundePersistence.addKunden(p1, "Passwort123!");
 
         Kunde p2 = new Kunde();
         p2.setAnrede("Frau");
@@ -94,8 +93,7 @@ public class DbInitializer {
         p2.setEmail("laura.schneider@example.com");
         p2.setGeburtsdatum(LocalDate.of(1992, 7, 5));
         p2.setUsername("lschneider");
-        p2.setPasswort("Sommer2024!");
-        kundePersistence.addKunden(p2);
+        kundePersistence.addKunden(p2, "Sommer2024!");
 
         Kunde p3 = new Kunde();
         p3.setAnrede("Herr");
@@ -107,8 +105,7 @@ public class DbInitializer {
         p3.setEmail("marco.keller@example.com");
         p3.setGeburtsdatum(LocalDate.of(1978, 11, 22));
         p3.setUsername("mkeller");
-        p3.setPasswort("Winter!2024");
-        kundePersistence.addKunden(p3);
+        kundePersistence.addKunden(p3, "Winter!2024");
 
         Kunde p4 = new Kunde();
         p4.setAnrede("Frau");
@@ -120,8 +117,7 @@ public class DbInitializer {
         p4.setEmail("nina.huber@example.com");
         p4.setGeburtsdatum(LocalDate.of(1999, 1, 14));
         p4.setUsername("nhuber");
-        p4.setPasswort("ZugLife2024!");
-        kundePersistence.addKunden(p4);
+        kundePersistence.addKunden(p4, "ZugLife2024!");
 
         Kunde p5 = new Kunde();
         p5.setAnrede("Herr");
@@ -133,8 +129,7 @@ public class DbInitializer {
         p5.setEmail("daniel.fischer@example.com");
         p5.setGeburtsdatum(LocalDate.of(1980, 6, 30));
         p5.setUsername("dfischer");
-        p5.setPasswort("Fisch2024!");
-        kundePersistence.addKunden(p5);
+        kundePersistence.addKunden(p5, "Fisch2024!");
 
         Kunde p6 = new Kunde();
         p6.setAnrede("Frau");
@@ -146,8 +141,7 @@ public class DbInitializer {
         p6.setEmail("sabrina.baumann@example.com");
         p6.setGeburtsdatum(LocalDate.of(1995, 9, 3));
         p6.setUsername("sbaumann");
-        p6.setPasswort("Chur2024!");
-        kundePersistence.addKunden(p6);
+        kundePersistence.addKunden(p6, "Chur2024!");
 
         Kunde p7 = new Kunde();
         p7.setAnrede("Herr");
@@ -159,8 +153,7 @@ public class DbInitializer {
         p7.setEmail("lukas.graf@example.com");
         p7.setGeburtsdatum(LocalDate.of(1988, 12, 9));
         p7.setUsername("lgraf");
-        p7.setPasswort("Interlaken2024!");
-        kundePersistence.addKunden(p7);
+        kundePersistence.addKunden(p7, "Interlaken2024!");
 
         Kunde p8 = new Kunde();
         p8.setAnrede("Frau");
@@ -172,8 +165,7 @@ public class DbInitializer {
         p8.setEmail("julia.meier@example.com");
         p8.setGeburtsdatum(LocalDate.of(1990, 4, 18));
         p8.setUsername("jmeier");
-        p8.setPasswort("Bern2024!");
-        kundePersistence.addKunden(p8);
+        kundePersistence.addKunden(p8, "Bern2024!");
 
         Kunde p9 = new Kunde();
         p9.setAnrede("Herr");
@@ -185,8 +177,7 @@ public class DbInitializer {
         p9.setEmail("patrick.weber@example.com");
         p9.setGeburtsdatum(LocalDate.of(1983, 2, 25));
         p9.setUsername("pweber");
-        p9.setPasswort("Basel2024!");
-        kundePersistence.addKunden(p9);
+        kundePersistence.addKunden(p9, "Basel2024!");
 
         Kunde p10 = new Kunde();
         p10.setAnrede("Frau");
@@ -198,8 +189,7 @@ public class DbInitializer {
         p10.setEmail("mara.kunz@example.com");
         p10.setGeburtsdatum(LocalDate.of(2001, 8, 7));
         p10.setUsername("mkunz");
-        p10.setPasswort("Luzern2024!");
-        kundePersistence.addKunden(p10);
+        kundePersistence.addKunden(p10, "Luzern2024!");
     }
       
 

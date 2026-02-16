@@ -213,9 +213,8 @@ public class MainFrame extends JFrame {
                     // ComboBox auf index 0 zurückstellen
                     getCbTechnologie().setSelectedIndex(0);
 
-
                     getTxtMarke().requestFocus();
-
+                    tvList.setSelectedIndex(tvList.getLastVisibleIndex());
                     System.out.println("TV hinzugefügt und Felder geleert.");
 
                 } catch (NumberFormatException ex) {
@@ -351,8 +350,7 @@ public class MainFrame extends JFrame {
                     getTxtKundeEmail().setText(String.valueOf(kunde.getEmail()));
                     getTxtKundeGeburtsdatum().setText(String.valueOf(kunde.getGeburtsdatum().toString()));
                     getTxtKundeUsername().setText(kunde.getUsername());
-                    getTxtKundePasswort().setText(kunde.getPasswort());
-
+                    // getTxtKundePasswort().setText("***************");
                 }
             }
         });
@@ -425,10 +423,9 @@ public class MainFrame extends JFrame {
                     kunde.setTelefonPrivat(getTxtKundeTelefon().getText());
                     kunde.setEmail(getTxtKundeEmail().getText());
                     kunde.setUsername(getTxtKundeUsername().getText());
-                    kunde.setPasswort(getTxtKundePasswort().getText());
                     kunde.setGeburtsdatum(LocalDate.parse(getTxtKundeGeburtsdatum().getText()));
 
-                    mainFrameController.getKundenController().addKunde(kunde);
+                    mainFrameController.getKundenController().addKunde(kunde, getTxtKundePasswort().getText());
                     kundeListModel.addElement(kunde);
 
 
@@ -447,6 +444,7 @@ public class MainFrame extends JFrame {
                     getTxtKundePasswort().setText("");
 
                     getTxtKundeVorname().requestFocus();
+                    kundeList.setSelectedIndex(kundeList.getLastVisibleIndex());
 
                     System.out.println("Kunde erfolgreich gespeichert und Felder geleert.");
 
@@ -508,9 +506,8 @@ public class MainFrame extends JFrame {
                         kunde.setTelefonPrivat(getTxtKundeTelefon().getText());
                         kunde.setEmail(getTxtKundeEmail().getText());
                         kunde.setUsername(getTxtKundeUsername().getText());
-                        kunde.setPasswort(getTxtKundePasswort().getText());
                         kunde.setGeburtsdatum(LocalDate.parse(getTxtKundeGeburtsdatum().getText()));
-                        mainFrameController.getKundenController().updateKunde(kunde);
+                        mainFrameController.getKundenController().updateKunde(kunde, getTxtKundePasswort().getText());
 
                         int currentIndex = kundeList.getSelectedIndex();
                         kundeList.clearSelection();
@@ -642,6 +639,7 @@ public class MainFrame extends JFrame {
                     mainFrameController.getBestellungController().addBestellung(mongoBestellung);
                     bestellungenListModel.addElement(mongoBestellung);
 
+                    bestellungList.setSelectedIndex(bestellungList.getLastVisibleIndex());
                     System.out.println("Bestellung hinzugefügt und temp Bestellung geleert.");
 
                 } catch (NumberFormatException ex) {

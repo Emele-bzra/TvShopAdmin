@@ -11,6 +11,12 @@ import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +44,12 @@ public class KundePersistence {
         return kunden;
     }
 
-    public void addKunden(Kunde kunde) {
+    public void addKunden(Kunde kunde, String password)  {
         MongoDatabase database = getDatabase();
         MongoCollection<Kunde> kunden = database.getCollection("Kunde", Kunde.class);
-        kunden.insertOne(kunde);
 
+        setPassword(kunde, password);
+        kunden.insertOne(kunde);
     }
     public void deleteKunden(Kunde kunde) {
         MongoCollection<Kunde> kunden = getCollection();
@@ -53,14 +60,35 @@ public class KundePersistence {
         return mongoClient.getDatabase("TVShop").withCodecRegistry(pojoCodecRegistry);
     }
 
-    public void updateKunden(Kunde kunde) {
+    public void updateKunden(Kunde kunde, String password) {
         MongoCollection<Kunde> tvs = getCollection();
+        if (!password.isBlank()) {
+            setPassword(kunde, password);
+        }
         tvs.replaceOne(
                 Filters.eq("_id", kunde.getId()),
                 kunde
         );
     }
 
+    private void setPassword(Kunde kunde, String password) {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+
+        try {
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            byte[] hash = factory.generateSecret(spec).getEncoded();
+
+            kunde.setPasswort(hash);
+            kunde.setSalt(salt);
+
+        } catch (Exception e) {
+            System.out.print("Vorsicht, ungültiger Hash Algo spezifiziert: " + e);
+        }
+    }
 
     private MongoCollection<Kunde> getCollection() {
         MongoDatabase database = mongoClient.getDatabase("TVShop").withCodecRegistry(pojoCodecRegistry);
