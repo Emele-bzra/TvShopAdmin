@@ -535,12 +535,17 @@ public class MainFrame extends JFrame {
 
 
     private JPanel createBestellungPanel() {
+        Bestellung tempBestellung = new Bestellung();
         JPanel panel = new JPanel(new BorderLayout(10, 10));
 
         JPanel left = new JPanel(new BorderLayout());
         left.setBorder(BorderFactory.createTitledBorder("Bestellungsliste"));
         JPanel positionListPanel = new JPanel();
         positionListPanel.setLayout(new BoxLayout(positionListPanel, BoxLayout.Y_AXIS));
+        JPanel positionFooterPanel = new JPanel();
+        positionFooterPanel.setLayout(new BoxLayout(positionFooterPanel, BoxLayout.Y_AXIS));
+        JPanel positionNewPanel = new JPanel();
+        positionNewPanel.setLayout(new BoxLayout(positionNewPanel, BoxLayout.X_AXIS));
 
         JPanel details = new JPanel();
         details.setLayout(new BoxLayout(details, BoxLayout.Y_AXIS));
@@ -552,8 +557,12 @@ public class MainFrame extends JFrame {
                 Bestellung bestellung = bestellungList.getSelectedValue();
 
                 if (bestellung != null) {
+                    positionFooterPanel.removeAll();
                     positionListPanel.removeAll();
 
+                    positionFooterPanel.add(new JLabel("Total: " + bestellung.getTotal()));
+
+                    // bestehende Positionen aus MongoDB auflisten
                     int pos = 1;
                     for (BestellPosition position :  bestellung.getPositionen()) {
                         // Datenreihe, für jede Position ein eigener Eintrag
@@ -591,24 +600,8 @@ public class MainFrame extends JFrame {
                         positionListPanel.add(Box.createVerticalStrut(8));
                     }
 
-                    positionListPanel.setVisible(true);
-                    positionListPanel.revalidate();
-                    positionListPanel.repaint();
-
-                    // text setzen
-                    /*
-                    getTxtMarke().setText(tv.getMarke());
-                    getTxtModell().setText(tv.getModell());
-                    getTxtDiagonale().setText(tv.getBildschirmdiagonale());
-                    getTxtPreis().setText(String.valueOf(tv.getPreis()));
-                    getTxtFrequenz().setText(String.valueOf(tv.getBildwiederholfrequenz()));
-                    getTxtGewicht().setText(String.valueOf(tv.getGewicht()));
-                    getTxtRelease().setText(tv.getReleaseDatum().toString());
-                    getTxtPixel().setText(tv.getPixelAufloesung());
-                    getTxtAufloesung().setText(tv.getAufloesung());
-                    getTxtLeistung().setText(String.valueOf(tv.getNennleistung()));
-                    getCbTechnologie().getModel().setSelectedItem(tv.getDisplayTechnologie());
-                    */
+                    details.revalidate();
+                    details.repaint();
                 }
             }
         });
@@ -744,14 +737,50 @@ public class MainFrame extends JFrame {
             public void stateChanged(ChangeEvent e) {
                 bestellungenListModel.clear();
 
+                tempBestellung.setKunde(kundeList.getSelectedValue());
+
                 for (Bestellung bestellung : mainFrameController.getBestellungController().readBestellung(kundeList.getSelectedValue())) {
                     bestellungenListModel.addElement(bestellung);
                 }
 
                 positionListPanel.removeAll();
+                positionFooterPanel.removeAll();
+                positionNewPanel.removeAll();
                 details.removeAll();
                 details.setBorder(BorderFactory.createTitledBorder("Details für '"  + kundeList.getSelectedValue() + "':"));
                 details.add(positionListPanel);
+                details.add(positionFooterPanel);
+                details.add(Box.createVerticalStrut(30));
+
+
+                // Felder für neue Position
+                JLabel newPositionLabel = new JLabel("Neue Position");
+                JComboBox<Object> newTvComboBox = new JComboBox<>(tvListModel.toArray());
+
+                positionNewPanel.add(newPositionLabel);
+                positionNewPanel.add(Box.createHorizontalStrut(15));
+                positionNewPanel.add(newTvComboBox);
+                positionNewPanel.add(Box.createHorizontalStrut(15));
+
+                JButton addNewPosition = new JButton("Hinzufügen");
+                addNewPosition.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Bestellung toAddPositions = (bestellungList.getSelectedValue() != null)
+                                ? bestellungList.getSelectedValue()
+                                : tempBestellung;
+
+                        BestellPosition position = new BestellPosition();
+                        Fernseher selectedFernseher = (Fernseher)newTvComboBox.getSelectedItem();
+                        position.setTv(selectedFernseher);
+                        position.setStueckzahl(1);
+
+                        toAddPositions.getPositionen().add(position);
+                    }
+                });
+                positionNewPanel.add(addNewPosition);
+                details.add(positionNewPanel);
+
                 details.revalidate();
                 details.repaint();
             }
