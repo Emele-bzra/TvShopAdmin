@@ -110,7 +110,7 @@ public class MainFrame extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 Fernseher tv = tvList.getSelectedValue();
                 if (tv != null) {
-                    // text setzen
+
                     getTxtMarke().setText(tv.getMarke());
                     getTxtModell().setText(tv.getModell());
                     getTxtDiagonale().setText(tv.getBildschirmdiagonale());
@@ -173,7 +173,7 @@ public class MainFrame extends JFrame {
         wrapper.add(details, BorderLayout.NORTH);
         panel.add(wrapper, BorderLayout.CENTER);
 
-        // editier Buttons
+
         JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         btnHinzufuegen = new JButton("Hinzufügen");
@@ -182,7 +182,7 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Fernseher tv = new Fernseher();
-                    // text holen
+
                     tv.setMarke(getTxtMarke().getText());
                     tv.setModell(getTxtModell().getText());
                     tv.setBildschirmdiagonale(getTxtDiagonale().getText());
@@ -198,7 +198,6 @@ public class MainFrame extends JFrame {
                     mainFrameController.getFernsehController().addFernseher(tv);
                     tvListModel.addElement(tv);
 
-                    // felder leeren
                     getTxtMarke().setText("");
                     getTxtModell().setText("");
                     getTxtPreis().setText("");
@@ -210,7 +209,7 @@ public class MainFrame extends JFrame {
                     getTxtPixel().setText("");
                     getTxtLeistung().setText("");
 
-                    // ComboBox auf index 0 zurückstellen
+
                     getCbTechnologie().setSelectedIndex(0);
 
                     getTxtMarke().requestFocus();
@@ -218,7 +217,7 @@ public class MainFrame extends JFrame {
                     System.out.println("TV hinzugefügt und Felder geleert.");
 
                 } catch (NumberFormatException ex) {
-                    // Falls es einen datentyp fehler wirft (auslöst)
+
                     JOptionPane.showMessageDialog(MainFrame.this,
                             "Fehler: Bitte überprüfe die Zahlenfelder! Die Eingaben wurden nicht gelöscht.");
                 }
@@ -238,7 +237,6 @@ public class MainFrame extends JFrame {
                     mainFrameController.getFernsehController().deleteFernseher(tv);
                     tvListModel.removeElement(tv);
 
-                    // Alle Textfelder auf leer setzen
                     getTxtMarke().setText("");
                     getTxtModell().setText("");
                     getTxtPreis().setText("");
@@ -250,7 +248,6 @@ public class MainFrame extends JFrame {
                     getTxtPixel().setText("");
                     getTxtLeistung().setText("");
 
-                    // ComboBox auf das erste Element zurücksetzen
                     getCbTechnologie().setSelectedIndex(0);
                 }
             }
@@ -339,7 +336,7 @@ public class MainFrame extends JFrame {
                     getTxtKundeNachname().setText(kunde.getNachname());
                     getTxtKundeVorname().setText(kunde.getVorname());
                     getTxtKundeOrt().setText(addresse.getOrt());
-                    getTxtKundePlz().setText(addresse.getPlz());  //--------------------------------------------------------------Fehler
+                    getTxtKundePlz().setText(addresse.getPlz());
                     getTxtKundeStrasse().setText(addresse.getStrasse());
                     getTxtKundeTelefon().setText(kunde.getTelefonPrivat());
                     getTxtAnrede().setText(kunde.getAnrede());
@@ -352,6 +349,23 @@ public class MainFrame extends JFrame {
                     getTxtKundeUsername().setText(kunde.getUsername());
                     // getTxtKundePasswort().setText("***************");
                 }
+                //Ansatz mit felder wieder clearen aus Zeitlichen und funktionalen Gründen erstmals für Abgabe auskommentiert
+                /* else {
+                    getTxtKundeNachname().setText("");
+                    getTxtKundeVorname().setText("");
+                    getTxtKundeOrt().setText("");
+                    getTxtKundePlz().setText("");
+                    getTxtKundeStrasse().setText("");
+                    getTxtKundeTelefon().setText("");
+                    getTxtAnrede().setText("");
+                    getTxtKundeOrt().setText("");
+                    getTxtKundePlz().setText("");
+                    getTxtKundeStrasse().setText("");
+                    getTxtKundeTelefonMobile().setText("");
+                    getTxtKundeEmail().setText("");
+                    getTxtKundeGeburtsdatum().setText("");
+                    getTxtKundeUsername().setText("");
+                }*/
             }
         });
 
@@ -467,7 +481,7 @@ public class MainFrame extends JFrame {
                     mainFrameController.getKundenController().deleteKunde(kunde);
                     kundeListModel.removeElement(kunde);
 
-                    // Alle Textfelder auf leer setzen
+                    // Alle Textfelder clearen
                     getTxtAnrede().setText("");
                     getTxtKundeVorname().setText("");
                     getTxtKundeNachname().setText("");
@@ -481,7 +495,7 @@ public class MainFrame extends JFrame {
                     getTxtKundePasswort().setText("");
                     getTxtKundeUsername().setText("");
 
-                    // ComboBox auf das erste Element zurücksetzen
+                    // Combobox auf das index 0 setzen
                     getCbTechnologie().setSelectedIndex(0);
                 }
             }
@@ -494,7 +508,6 @@ public class MainFrame extends JFrame {
                 try {
                     Kunde kunde = kundeList.getSelectedValue();
                     if (kunde != null) {
-                        // text holen
 
                         kunde.setAnrede(getTxtAnrede().getText());
                         kunde.setNachname(getTxtKundeNachname().getText());
@@ -558,7 +571,6 @@ public class MainFrame extends JFrame {
 
                 positionFooterPanel.add(new JLabel("Total: " + bestellung.getTotal()));
 
-                // bestehende Positionen aus MongoDB auflisten
                 int pos = 1;
                 for (BestellPosition position :  bestellung.getPositionen()) {
                     // Datenreihe, für jede Position ein eigener Eintrag
@@ -617,7 +629,7 @@ public class MainFrame extends JFrame {
         wrapper.add(details, BorderLayout.NORTH);
         panel.add(wrapper, BorderLayout.CENTER);
 
-        // editier Buttons
+
         JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         btnHinzufuegen = new JButton("Hinzufügen");
@@ -625,17 +637,17 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // Daten aus temporäre Bestellung kopieren
+
                     Bestellung mongoBestellung = new Bestellung();
                     mongoBestellung.setKunde(tempBestellung.getKunde());
                     mongoBestellung.setTotal(tempBestellung.getTotal());
                     mongoBestellung.setPositionen(tempBestellung.getPositionen());
 
-                    // temporäre Bestellung leeren
+
                     tempBestellung.setPositionen(new ArrayList<>());
                     tempBestellung.setTotal(0);
 
-                    // neue Bestellung einfügen: ACHTUNG setzt _id (identity)
+
                     mainFrameController.getBestellungController().addBestellung(mongoBestellung);
                     bestellungenListModel.addElement(mongoBestellung);
 
@@ -643,7 +655,7 @@ public class MainFrame extends JFrame {
                     System.out.println("Bestellung hinzugefügt und temp Bestellung geleert.");
 
                 } catch (NumberFormatException ex) {
-                    // Falls es einen datentyp fehler wirft (auslöst)
+                    // if datentyp fehler
                     JOptionPane.showMessageDialog(MainFrame.this,
                             "Fehler: Die Eingaben wurden nicht angelegt.");
                 }
@@ -718,8 +730,7 @@ public class MainFrame extends JFrame {
         tabbedPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                // Logik, sobald auf das Bestellungen-Tab gewechselt wird
-                // -> Detail-Tabelle im UI neu aufbauen und temporäre Instanz mit Kunde füllen
+               // logik für BestellungenTab mit tempDaten
                 tempBestellung.setPositionen(new ArrayList<>());
                 tempBestellung.setTotal(0);
                 tempBestellung.setKunde(kundeList.getSelectedValue());
