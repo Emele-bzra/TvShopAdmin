@@ -564,7 +564,6 @@ public class MainFrame extends JFrame {
         details.setLayout(new BoxLayout(details, BoxLayout.Y_AXIS));
 
         Consumer<Bestellung> renderTable = (Bestellung bestellung) -> {
-            // Selektierung einer Bestellung, d.h. Positionen im UI auflisten
             if (bestellung != null) {
                 positionFooterPanel.removeAll();
                 positionListPanel.removeAll();
@@ -573,7 +572,7 @@ public class MainFrame extends JFrame {
 
                 int pos = 1;
                 for (BestellPosition position :  bestellung.getPositionen()) {
-                    // Datenreihe, für jede Position ein eigener Eintrag
+
                     JPanel rowPanel = new JPanel();
                     rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
 
